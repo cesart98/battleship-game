@@ -33,10 +33,13 @@ const Gameboard = (() => {
         if(grid.classList.includes('hit')) {
             return;
         } else if(grid.classList.includes('ship') && grid.classList.includes('not-hit')) {
-            return grid.classList[0] = 'hit';
+            missedAttacks.push(grid.id);
+            grid.classList[0] = 'hit';
+            return;
             // else if ship tile is on coordinate, send hit function
         } else if(grid.classList.includes('not-hit')) {
-            return missedAttacks.push(grid.id);
+            missedAttacks.push(grid.id);
+            return;
             // else if ship tile NOT on coordinate, record missed shot
         };
     };
