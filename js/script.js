@@ -55,3 +55,14 @@ const Gameboard = (() => {
 })();
 
 let carrier = ShipFactory(5);
+
+function generateGameBoard() {
+    let gameboard = document.querySelector('.gameboard');
+    for(let i = 1; i < 101; i++) {
+        gridSquare = document.createElement('div');
+        gridSquare.setAttribute('id', i);
+        gridSquare.setAttribute('class', 'not-hit');
+        gameboard.appendChild(gridSquare);
+    }
+}
+generateGameBoard();
