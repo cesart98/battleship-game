@@ -1,7 +1,8 @@
 import generateWebpage from './generate-webpage.js';
+import './style.css'
 
 async function main() {
-  /*  async function abc() {
+    async function everythingElse() {
         const ShipFactory = (shipLength) => {
             let tilesStatus = [];
             let tilesLocation = [];
@@ -58,11 +59,12 @@ async function main() {
             return {receiveAttack, setShipCoordinates, getMissedAttacks, areShipsSunk};
         })();
         
-        let carrier = ShipFactory(5);
+        let carrier = await ShipFactory(5);
+        console.log(carrier);
         return;
-    } */
+    }
     await generateWebpage();
-    //await abc();
+    await everythingElse();
     return;
 }
 main();
