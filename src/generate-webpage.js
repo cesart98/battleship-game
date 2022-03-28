@@ -15,45 +15,73 @@ export default async function generateWebpage() {
     }
     async function generatePlayerShips() {
         let container = document.querySelector('.container');
-        function generateTugBoat() {
-            let tugBoat = document.createElement('div');
-            tugBoat.setAttribute('class', 'tugboat');
-            tugBoat.onmousedown = function (event) {
+        function dragAndDropShip(event, ship) {
 
-                let shiftX = event.clientX - tugBoat.getBoundingClientRect().left;
-                let shiftY = event.clientY - tugBoat.getBoundingClientRect().top;
+            ship.ondragstart = () => false;
 
-                // (1) prepare element for moving
-                tugBoat.style.position = 'absolute';
-                tugBoat.style.zIndex = 1000;
+            let shiftX = event.clientX - ship.getBoundingClientRect().left;
+            let shiftY = event.clientY - ship.getBoundingClientRect().top;
+
+            // centers the ship at (pageX, pageY) coordinates
+            function repositionShipAt(pageX, pageY) {
+                ship.style.left = pageX - shiftX + 'px';
+                ship.style.top = pageY - shiftY + 'px';
+            }
+            function onMouseDown() {
+                // make ship absolute and on top by z-index
+                ship.style.position = 'absolute';
+                ship.style.zIndex = 1000;
 
                 // move it out of any current parents directly into body
                 // to make it positioned relative to the body
-                document.body.append(tugBoat);
+                document.body.append(ship);
 
-                // move our absolutely positioned ship under the pointer
-                moveAt(event.pageX, event.pageY);
-
-                // centers the ship at (pageX, pageY) coordinates
-                function moveAt(pageX, pageY) {
-                    tugBoat.style.left = pageX - shiftX + 'px';
-                    tugBoat.style.top = pageY - shiftY + 'px';
-                }
-            
-                function onMouseMove(event) {
-                    moveAt(event.pageX, event.pageY);
-                };
-                
-                // (2) move the ship on mousemove
-                document.addEventListener('mousemove', onMouseMove);
-                
-                // (3) drop the ship, remove unneeded handlers
-                tugBoat.onmouseup = function() {
-                    document.removeEventListener('mousemove', onMouseMove);
-                    tugBoat.onmouseup = null;
-                };
+                // move absolutely positioned ship under the pointer
+                repositionShipAt(event.pageX, event.pageY);
             }
-            tugBoat.ondragstart = () => false;
+            function onMouseMove(event) {
+                function checkForDroppable() {
+                    ship.hidden = true;
+                    let elemBelow = document.elementFromPoint(event.clientX, event.clientY);
+                    ship.hidden = false;
+
+                    if (!elemBelow) return;
+
+                    let droppableBelow = elemBelow.closest('.droppable');
+
+                    if (currentDroppable != droppableBelow) {
+                        if(currentDroppable) { // already above a droppable
+                            // fly out of droppable
+                            leaveDroppable(currentDroppable);
+                        }
+                        currentDroppable = droppableBelow;
+                        if (currentDroppable) {
+                            // fly into droppable
+                            enterDroppable(currentDroppable);
+                        }
+                    }
+                }
+                repositionShipAt(event.pageX, event.pageY);
+                checkForDroppable();
+            };
+
+            // (1) prepare ship on mousedown
+            onMouseDown();
+            
+            // (2) move the ship on mousemove
+            let currentDroppable = null;
+            document.addEventListener('mousemove', onMouseMove);
+            
+            // (3) drop the ship on mouseup, remove unneeded handlers
+            ship.onmouseup = () => {
+                document.removeEventListener('mousemove', onMouseMove);
+                ship.onmouseup = null;
+            };
+        }
+        function generateTugBoat() {
+            let tugBoat = document.createElement('div');
+            tugBoat.setAttribute('class', 'tugboat');
+            tugBoat.onmousedown = (event) => dragAndDropShip(event, tugBoat);
             container.appendChild(tugBoat);
         }
         generateTugBoat();

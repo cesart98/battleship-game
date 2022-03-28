@@ -36,8 +36,6 @@ async function main() {
     } 
     */
     await generateWebpage();
-    // let tugboat = await document.querySelector('.tugboat');
-    // tugboat.addEventListener('mousedown', addDragandDrop);
     // await everythingElse(); 
     return;
 }
