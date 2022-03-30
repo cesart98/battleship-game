@@ -13,7 +13,7 @@ export const ShipFactory = (shipLength) => {
     const getTilesLocation = () => {
         return tilesLocation;
     }
-    const setTilesLocation = (location) => {
+    const setLocation = (location) => {
         tilesLocation = location;
     }
     const isSunk = () => {
@@ -23,5 +23,5 @@ export const ShipFactory = (shipLength) => {
             return true;
         }
     };
-    return {hit, getTilesStatus, getTilesLocation, setTilesLocation, isSunk};
+    return {hit, getTilesStatus, getTilesLocation, setLocation, isSunk};
 };
