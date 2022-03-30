@@ -1,27 +1,29 @@
-export const ShipFactory = (shipLength) => {
-    let tilesStatus = [];
-    let tilesLocation = [];
-    tilesStatus.length = shipLength;
-    tilesLocation.length = shipLength;
-    tilesStatus.fill('Good');
-    tilesLocation.fill('');
+export const ShipFactory = (length) => {
+    let shipPart = [];
+    for(let i = 0; i <= length; i++) {
+        shipPart[i] = {
+            isHit: false,
+            location: null
+        }
+    }
     
-    const hit = (value) => tilesStatus[value] = 'Hit';
-    const getTilesStatus = () => {
-        return tilesStatus;
+    const recieveAttack = (grid) => {
+        let index = shipPart.findIndex(part => part.location == grid);
+        shipPart[index].isHit = true;
     }
-    const getTilesLocation = () => {
-        return tilesLocation;
-    }
-    const setLocation = (location) => {
-        tilesLocation = location;
+    const setLocation = (grids) => {
+        for(let i = 0; i <= grids.length; i++) {
+            shipPart[i].location = grids[i];
+        }
     }
     const isSunk = () => {
-        if(tilesStatus.includes('Good')) {
-            return false;
-        } else {
-            return true;
-        }
+        shipPart.forEach(part => {
+            if(part.isHit == false) {
+                return false
+            } else if(part.isHit == true) {
+                return true
+            }
+        })
     };
-    return {hit, getTilesStatus, getTilesLocation, setLocation, isSunk};
+    return {recieveAttack, setLocation, isSunk};
 };

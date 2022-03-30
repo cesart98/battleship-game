@@ -7,7 +7,6 @@ export const Gameboard = (() => {
             shipName: null
         }
     }
-    console.log(gameBoard);
 
     const receiveAttackAt = (coordinate) => {
         function checkIfHitAt(grid) {

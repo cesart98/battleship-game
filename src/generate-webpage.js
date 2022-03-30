@@ -14,7 +14,9 @@ export default async function generateWebpage() {
         return;
     }
     async function generatePlayerShips() {
-        let container = document.querySelector('.container');
+        let shipContainer = document.createElement('div');
+        shipContainer.setAttribute('class', 'player-ships');
+        container.appendChild(shipContainer);
         function grabShip(event, ship) {
 
             ship.ondragstart = () => false;
@@ -83,12 +85,12 @@ export default async function generateWebpage() {
             let tugBoat = document.createElement('div');
             tugBoat.setAttribute('class', 'tugboat');
             tugBoat.onmousedown = (event) => grabShip(event, tugBoat);
-            container.appendChild(tugBoat);
+            shipContainer.appendChild(tugBoat);
         }
         generateTugBoat();
         return;
     }
-
+    let container = document.querySelector('.container');
     await generateGameBoard();
     await generatePlayerShips();
 
