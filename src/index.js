@@ -8,6 +8,7 @@ async function main() {
     return;
 }
 main();
+console.log(Gameboard);
 
 // generate gameboard
 // place ships on board

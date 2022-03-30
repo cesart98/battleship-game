@@ -1,6 +1,12 @@
 export const Gameboard = (() => {
     let gameBoard = [];
-    gameBoard.fill({isHit: false, hasShip: false, shipName: null}, 1, 100);
+    for(let i = 1; i <= 100; i++) {
+        gameBoard[i] = {
+            isHit: false, 
+            hasShip: false, 
+            shipName: null
+        }
+    }
     console.log(gameBoard);
 
     const receiveAttackAt = (coordinate) => {
