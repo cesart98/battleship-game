@@ -18,9 +18,7 @@ export default async function generateWebpage() {
         shipContainer.setAttribute('class', 'player-ships');
         container.appendChild(shipContainer);
         function grabShip(event, ship) {
-
             ship.ondragstart = () => false;
-
             let shiftX = event.clientX - ship.getBoundingClientRect().left;
             let shiftY = event.clientY - ship.getBoundingClientRect().top;
 
@@ -54,7 +52,7 @@ export default async function generateWebpage() {
                     if (currentGrid != emptyGrid) {
                         if(currentGrid) {
                             function leaveGrid(grid) {
-                                grid.style.backgroundColor = "";
+                                grid.style.backgroundColor = "white";
                             }
                             leaveGrid(currentGrid);
                         }
@@ -81,13 +79,14 @@ export default async function generateWebpage() {
                 ship.onmouseup = null;
             };
         }
-        function generateTugBoat() {
-            let tugBoat = document.createElement('div');
-            tugBoat.setAttribute('class', 'tugboat');
-            tugBoat.onmousedown = (event) => grabShip(event, tugBoat);
-            shipContainer.appendChild(tugBoat);
+        function generateShip(type) {
+            let ship = document.createElement('div');
+            ship.setAttribute('class', type);
+            ship.onmousedown = (event) => grabShip(event, ship);
+            shipContainer.appendChild(ship);
         }
-        generateTugBoat();
+        generateShip('tugboat');
+        generateShip('carrier');
         return;
     }
     let container = document.querySelector('.container');

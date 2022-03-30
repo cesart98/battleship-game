@@ -7,7 +7,7 @@
     align-items: center;
 }
 
-.tugboat {
+.tugboat, .carrier {
     height: clamp(50px, 50px, 50px);
     width: clamp(50px, 50px, 50px);
     background-color: cyan;
