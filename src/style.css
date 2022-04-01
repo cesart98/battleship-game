@@ -24,7 +24,7 @@
     border: solid black 1px;
 }
 
-.gameboard > * {
+.gameboard > .empty-grid {
     background-color: white;
     border: solid black 1px;
 }
