@@ -28,3 +28,8 @@
     background-color: white;
     border: solid black 1px;
 }
+
+.gameboard > .filled-grid {
+    background-color: red;
+    border: solid black 1px;
+}
