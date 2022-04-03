@@ -21,15 +21,9 @@
     display: grid;
     grid-template-columns: repeat(10, 1fr);
     grid-template-rows: repeat(10, 1fr);
-    border: solid black 1px;
-}
-
-.gameboard > .empty-grid {
     background-color: white;
-    border: solid black 1px;
 }
 
-.gameboard > .filled-grid {
-    background-color: red;
+.gameboard > .droppable {
     border: solid black 1px;
 }

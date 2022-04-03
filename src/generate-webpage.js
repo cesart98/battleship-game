@@ -8,7 +8,7 @@ export default async function generateWebpage() {
                 let gridSquare = document.createElement('div');
                 gridSquare.setAttribute('id', i);
                 gridSquare.classList.add('droppable');
-                gridSquare.classList.add('empty-grid');
+                gridSquare.classList.add('empty');
                 gameboard.appendChild(gridSquare);
             }
             return;

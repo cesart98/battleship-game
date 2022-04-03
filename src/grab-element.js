@@ -1,44 +1,57 @@
 export default function addDragDropBehavior(mousedownEvent, elem) {
-    let elemCurrentlyInside = null;
-    function handleDroppable(event) {
-        elem.hidden = true;
-        let elemBelow = element.below(event);
-        elem.hidden = false;
-
-        console.log(1);
-        console.log(elemCurrentlyInside);
-
-        console.log(2);
-        console.log(elemBelow);
-
-        if (!elemBelow) return;
-
-        let droppableBelow = element.droppableBelow(elemBelow);
-        console.log(3);
-        console.log(droppableBelow)
-
-        if (elemCurrentlyInside != droppableBelow) {
-            if(elemCurrentlyInside) {
-                //leaveDroppable(elemCurrentlyInside);
-                elemCurrentlyInside.classList.replace('filled-grid', 'empty-grid');
-            }
-            elemCurrentlyInside = droppableBelow;
-            if (elemCurrentlyInside) {
-                //enterDroppable(elemCurrentlyInside)
-                elemCurrentlyInside.classList.replace('empty-grid', 'filled-grid');
-            }
-        }
-    }
     const element = (() => {
-        const currentlyInside = null;
-        const droppableBelow = (elemBelow) => elemBelow.closest('.droppable');
-        const below = (clientX, clientY) => {
-            elem.hidden = true;
-            let elemBelow = document.elementFromPoint(clientX, clientY);
-            elem.hidden = false;
-            return elemBelow;
+
+        let elementBelow = null;
+        let droppableBelow = null;
+
+        function getDroppableBelow(event) {
+            function getElementBelow(clientX, clientY) {
+                elem.hidden = true;
+                let topmostElement = document.elementFromPoint(clientX, clientY);
+                elem.hidden = false;
+                return topmostElement;
+            }
+            elementBelow = getElementBelow(event.clientX, event.clientY)
+            return elementBelow.closest('.droppable');
         }
-        return {currentlyInside, droppableBelow, below}
+
+        const isInsideDroppable = (event) => {
+            console.log(event);
+            droppableBelow = getDroppableBelow(event);
+            console.log(droppableBelow);
+            if(!droppableBelow) {
+                return false;
+            } else if(droppableBelow) {
+                return true;
+            }
+        }
+        const isAboveEmptyDroppable = (event) => {
+            droppableBelow = getDroppableBelow(event);
+            if(!droppableBelow) {
+                return false;
+            } else if(droppableBelow && droppableBelow.classList.contains('empty')) {
+                return true;
+            }
+        }
+        const leaveDroppable = () => {
+            droppableBelow.classList.replace('occupied', 'empty');
+        }
+        const toggleHoverEffect = () => {
+            /*if(!droppableBelow.style.backgroundColor) {
+                droppableBelow.style.backgroundColor = 'green';
+            }
+            if(droppableBelow != getDroppableBelow(event)) {
+                droppableBelow.style.backgroundColor = null;
+            }*/
+        }
+        const enterDroppable = () => {
+            droppableBelow.appendChild(elem);
+            droppableBelow.classList.replace('empty', 'occupied');
+
+            elem.style.position = 'static';
+            elem.style.zIndex = 'auto';
+        }
+        return {leaveDroppable, enterDroppable, isInsideDroppable, toggleHoverEffect, isAboveEmptyDroppable}
     })();
     const mouse = (() => {
         function moveElem(pageX, pageY) {
@@ -46,22 +59,18 @@ export default function addDragDropBehavior(mousedownEvent, elem) {
             elem.style.top = pageY - elem.offsetHeight / 2 + 'px';
         }
         const grabElem = (event) => {
-            console.log(event);
             elem.style.position = 'absolute';
             elem.style.zIndex = 1000;
     
             document.body.append(elem);
     
             moveElem(event.pageX, event.pageY);
-            handleDroppable(event);
         }
         const dragElem = (event) => {
-            console.log(event);
             elem.ondragstart = () => false;
             moveElem(event.pageX, event.pageY);
-            handleDroppable(event);
         }
-        const dropElem = (event) => {
+        const dropElem = () => {
             document.onmousemove = null;
             elem.onmouseup = null;
         }
@@ -71,13 +80,23 @@ export default function addDragDropBehavior(mousedownEvent, elem) {
     // (1) append elem under the mouse
     mouse.grabElem(mousedownEvent);
 
-    // (2) drag along elem under the mouse
+    if(element.isInsideDroppable(mousedownEvent)) {
+        element.leaveDroppable();
+    }
+
+    // (2) move elem as mouse moves
     document.onmousemove = (mousemoveEvent) => {
         mouse.dragElem(mousemoveEvent);
+        if(element.isAboveEmptyDroppable(mousemoveEvent)) {
+            element.toggleHoverEffect();
+        }
     }
     
     // (3) drop elem on mouseup
     elem.onmouseup = (mouseupEvent) => {
-        mouse.dropElem(mouseupEvent)
+        mouse.dropElem(mouseupEvent);
+        if(element.isAboveEmptyDroppable(mouseupEvent)) {
+            element.enterDroppable();
+        }
     }
 }
