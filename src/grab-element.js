@@ -100,3 +100,5 @@ export default function addDragDropBehavior(mousedownEvent, elem) {
         }
     }
 }
+
+// test for WSL2
