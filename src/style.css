@@ -27,3 +27,7 @@
 .gameboard > .droppable {
     border: solid black 1px;
 }
+
+.hover {
+    background-color: red;
+}
