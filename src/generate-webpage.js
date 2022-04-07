@@ -17,16 +17,17 @@ export default async function generateWebpage() {
         return;
     }
     async function generatePlayerShips() {
-        let shipContainer = document.createElement('div');
-        shipContainer.setAttribute('class', 'player-ships');
-        container.appendChild(shipContainer);
+        let playerShips = document.createElement('div');
+        playerShips.setAttribute('class', 'player-ships');
+        container.appendChild(playerShips);
         
         function generateShip(type) {
             let ship = document.createElement('div');
             ship.setAttribute('class', type);
             ship.onmousedown = (event) => addDragDropBehavior(event, ship);
-            shipContainer.appendChild(ship);
+            playerShips.appendChild(ship);
         }
+        
         generateShip('tugboat');
         generateShip('carrier');
         return;
