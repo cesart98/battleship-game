@@ -21,15 +21,19 @@ export default async function generateWebpage() {
         playerShips.setAttribute('class', 'player-ships');
         container.appendChild(playerShips);
         
-        function generateShip(type) {
+        function generateShip(type, length) {
             let ship = document.createElement('div');
             ship.setAttribute('class', type);
             ship.onmousedown = (event) => addDragDropBehavior(event, ship);
+            for(let i = 0; i < length; i++) {
+                let shipTile = document.createElement('span');
+                ship.appendChild(shipTile)
+            }
             playerShips.appendChild(ship);
         }
         
-        generateShip('tugboat');
-        generateShip('carrier');
+        generateShip('tugboat', 1);
+        generateShip('carrier', 5);
         return;
     }
     let container = document.querySelector('.container');
