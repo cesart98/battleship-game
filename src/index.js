@@ -8,11 +8,6 @@ async function main() {
     return;
 }
 main();
-
-let carrier = new Carrier();
-let grids = [21, 22, 23, 24, 25];
-carrier.setLocation(grids);
-console.log(carrier);
 // generate gameboard
 // place ships on board
 // when user presses ready

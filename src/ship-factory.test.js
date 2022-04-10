@@ -1,27 +1,47 @@
 import {Carrier, Battleship, Destroyer, Submarine, PatrolBoat} from './ship-factory';
 
-test('intialize new carrier object', () => {
+describe('intialize new carrier ship', () => {
     let carrier = new Carrier();
-    expect(typeof(carrier)).toBe('object');
-    expect(carrier.shipParts.length).toEqual(5);
-    carrier.shipParts.every(shipPart => {
-        expect(shipPart.isHit).toBeFalsy();
-        expect(shipPart.location).toBeNull();
-    })
-    expect(carrier.isSunk()).toBeFalsy();
+
+    test('carrier is object', () => {
+        expect(typeof(carrier)).toBe('object');
+    });
+
+    test('carrier length is five', () => {
+        expect(carrier.shipParts.length).toEqual(5);
+    });
+
+    test('carrier ship parts have correct start values', () => {
+        carrier.shipParts.every(shipPart => {
+            expect(shipPart.isHit).toBeFalsy();
+            expect(shipPart.location).toBeNull();
+        })
+    });
+
+    test('carrier is not sunk', () => {
+        expect(carrier.isSunk()).toBeFalsy();
+        expect(carrier.isSunk()).not.toBeTruthy();
+    });
 });
 
-test('set location of ship', () => {
+describe('test ship functions', () => {
     let carrier = new Carrier();
-    let grids = [21, 22, 23, 24, 25];
-    carrier.setLocation(grids);
-    carrier.shipParts.every((shipPart, index) => {
-        expect(shipPart.location).toEqual(grids[index]);
-    })
+    let shipLocation = [21, 22, 23, 24, 25];
+    let gridCoordinate = 24;
+    carrier.setLocation(shipLocation);
+    carrier.recieveAttack(gridCoordinate);
+
+    test('set ship location', () => {
+        carrier.shipParts.forEach((shipPart, index) => {
+            expect(shipPart.location).toEqual(shipLocation[index]);
+        })
+    });
+
+    test('attack ship part', () => {
+        carrier.shipParts.forEach((shipPart) => {
+            if(shipPart.location === gridCoordinate) {
+                expect(shipPart.isHit).toBeTruthy();
+            }
+        })
+    });
 });
-/*
-test('intialize new carrier object', () => {
-    let carrier = new Carrier();
-    expect(typeof(carrier)).toBe('object');
-});
-*/

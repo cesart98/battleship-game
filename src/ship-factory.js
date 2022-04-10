@@ -3,10 +3,11 @@ class Ship {
         this.shipParts = [];
     }
     recieveAttack(grid) {
-        let index = this.shipParts.findIndex(shipPart => {
-            shipPart.location == grid
-        });
-        shipParts[index].isHit = true;
+        this.shipParts.forEach((shipPart, index) => {
+            if(shipPart.location === grid) {
+                this.shipParts[index].isHit = true;
+            }
+        })
     }
     setLocation(grids) {
         grids.forEach((grid, index) => {
