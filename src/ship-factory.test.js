@@ -9,13 +9,16 @@ test('intialize new carrier object', () => {
         expect(shipPart.location).toBeNull();
     })
 });
-/*
+
 test('set location of ship', () => {
     let carrier = new Carrier();
-    carrier.setLocation([21, 22, 23, 24, 25]);
-    expect(carrier.shipParts).toBe('object');
+    let grids = [21, 22, 23, 24, 25];
+    carrier.setLocation(grids);
+    carrier.shipParts.every((shipPart, index) => {
+        expect(shipPart.location).toEqual(grids[index]);
+    })
 });
-
+/*
 test('intialize new carrier object', () => {
     let carrier = new Carrier();
     expect(typeof(carrier)).toBe('object');

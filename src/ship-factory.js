@@ -8,13 +8,13 @@ class Ship {
         });
         shipParts[index].isHit = true;
     }
-    setLocation(...grids) {
-        for(let i = 0; i <= grids.length; i++) {
-            shipParts[i].location = grids[i];
-        }
+    setLocation(grids) {
+        grids.forEach((grid, index) => {
+            this.shipParts[index].location = grid;
+        })
     }
     isSunk() {
-        shipParts.every(shipPart => {
+        this.shipParts.every(shipPart => {
             shipPart.isHit == true;
         })
     }
