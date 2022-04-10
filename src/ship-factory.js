@@ -1,29 +1,78 @@
-export const ShipFactory = (length) => {
-    let shipPart = [];
-    for(let i = 0; i <= length; i++) {
-        shipPart[i] = {
-            isHit: false,
-            location: null
-        }
+class Ship {
+    constructor() {
+        this.shipParts = [];
     }
-    
-    const recieveAttack = (grid) => {
-        let index = shipPart.findIndex(part => part.location == grid);
-        shipPart[index].isHit = true;
+    recieveAttack(grid) {
+        let index = this.shipParts.findIndex(shipPart => {
+            shipPart.location == grid
+        });
+        shipParts[index].isHit = true;
     }
-    const setLocation = (grids) => {
+    setLocation(...grids) {
         for(let i = 0; i <= grids.length; i++) {
-            shipPart[i].location = grids[i];
+            shipParts[i].location = grids[i];
         }
     }
-    const isSunk = () => {
-        shipPart.forEach(part => {
-            if(part.isHit == false) {
-                return false
-            } else if(part.isHit == true) {
-                return true
-            }
+    isSunk() {
+        shipParts.every(shipPart => {
+            shipPart.isHit == true;
         })
-    };
-    return {recieveAttack, setLocation, isSunk};
-};
+    }
+}
+class Carrier extends Ship {
+    constructor() {
+        super();
+        for(let i = 0; i <= 4; i++) {
+            this.shipParts[i] = {
+                isHit: false,
+                location: null
+            }
+        }
+    }
+}
+class Battleship extends Ship {
+    constructor() {
+        super();
+        for(let i = 0; i <= 3; i++) {
+            this.shipParts[i] = {
+                isHit: false,
+                location: null
+            }
+        }
+    }
+}
+class Destroyer extends Ship {
+    constructor() {
+        super();
+        for(let i = 0; i <= 2; i++) {
+            this.shipParts[i] = {
+                isHit: false,
+                location: null
+            }
+        }
+    }
+}
+class Submarine extends Ship {
+    constructor() {
+        super();
+        for(let i = 0; i <= 1; i++) {
+            this.shipParts[i] = {
+                isHit: false,
+                location: null
+            }
+        }
+    }
+}
+class PatrolBoat extends Ship {
+    constructor() {
+        super();
+        for(let i = 0; i <= 0; i++) {
+            this.shipParts[i] = {
+                isHit: false,
+                location: null
+            }
+        }
+    }
+}
+
+export {Carrier, Battleship, Destroyer, Submarine, PatrolBoat}
