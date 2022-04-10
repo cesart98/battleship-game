@@ -1,6 +1,5 @@
 import generateWebpage from './generate-webpage.js';
-//import {Carrier, Battleship, Destroyer, Submarine, PatrolBoat} from './ship-factory.js';
-const Carrier = require('./ship-factory');
+import {Carrier, Battleship, Destroyer, Submarine, PatrolBoat} from './ship-factory.js';
 import { Gameboard } from './gameboard.js'
 import './style.css'
 

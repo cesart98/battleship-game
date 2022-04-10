@@ -1,4 +1,4 @@
-const Carrier = require('./ship-factory');
+import {Carrier, Battleship, Destroyer, Submarine, PatrolBoat} from './ship-factory';
 
 test('intialize new carrier object', () => {
     let carrier = new Carrier();
@@ -8,6 +8,7 @@ test('intialize new carrier object', () => {
         expect(shipPart.isHit).toBeFalsy();
         expect(shipPart.location).toBeNull();
     })
+    expect(carrier.isSunk()).toBeFalsy();
 });
 
 test('set location of ship', () => {

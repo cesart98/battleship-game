@@ -74,5 +74,5 @@ class PatrolBoat extends Ship {
         }
     }
 }
-module.exports = Carrier;
-//export {Carrier, Battleship, Destroyer, Submarine, PatrolBoat}
+
+export {Carrier, Battleship, Destroyer, Submarine, PatrolBoat}
