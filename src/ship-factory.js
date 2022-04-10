@@ -1,6 +1,11 @@
 class Ship {
-    constructor() {
-        this.shipParts = [];
+    constructor(length, name) {
+        let shipParts = [];
+        shipParts.length = length;
+        shipParts.fill( { isHit: false, location: null } );
+
+        this.shipParts = shipParts;
+        this.name = name;
     }
     recieveAttack(grid) {
         this.shipParts.forEach((shipPart, index) => {
@@ -21,58 +26,28 @@ class Ship {
     }
 }
 class Carrier extends Ship {
-    constructor() {
-        super();
-        for(let i = 0; i <= 4; i++) {
-            this.shipParts[i] = {
-                isHit: false,
-                location: null
-            }
-        }
+    constructor(name) {
+        super(length = 5, name);
     }
 }
 class Battleship extends Ship {
-    constructor() {
-        super();
-        for(let i = 0; i <= 3; i++) {
-            this.shipParts[i] = {
-                isHit: false,
-                location: null
-            }
-        }
+    constructor(name) {
+        super(length = 4, name);
     }
 }
 class Destroyer extends Ship {
-    constructor() {
-        super();
-        for(let i = 0; i <= 2; i++) {
-            this.shipParts[i] = {
-                isHit: false,
-                location: null
-            }
-        }
+    constructor(name) {
+        super(length = 3, name);
     }
 }
 class Submarine extends Ship {
-    constructor() {
-        super();
-        for(let i = 0; i <= 1; i++) {
-            this.shipParts[i] = {
-                isHit: false,
-                location: null
-            }
-        }
+    constructor(name) {
+        super(length = 2, name);
     }
 }
 class PatrolBoat extends Ship {
-    constructor() {
-        super();
-        for(let i = 0; i <= 0; i++) {
-            this.shipParts[i] = {
-                isHit: false,
-                location: null
-            }
-        }
+    constructor(name) {
+        super(length = 1), name;
     }
 }
 
