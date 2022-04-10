@@ -9,9 +9,6 @@ async function main() {
 }
 main();
 
-let carrier1 = new Carrier();
-console.log(carrier1);
-
 // generate gameboard
 // place ships on board
 // when user presses ready
