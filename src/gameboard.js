@@ -1,14 +1,9 @@
-class Gameboard {
-    constructor() {
-        let gridSquares = [];
-        for(let i = 1; i <= 100; i++) {
-            gridSquares[i] = {
-                isHit: false, 
-                hasShip: false, 
-                shipName: null
-            }
-        }
-        this.gridSquares = gridSquares;
+export default class Gameboard {
+    constructor(name) {
+        this.gridSquares = (Array(100)).fill(
+            { isHit: false, hasShip: false, shipName: null }
+        );
+        this.name = name;
     }
 
     receiveAttack(coordinate) {
@@ -62,5 +57,3 @@ class Gameboard {
     }
     
 }
-
-export {Gameboard};
