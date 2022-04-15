@@ -1,7 +1,7 @@
-import {Carrier, Battleship, Destroyer, Submarine, PatrolBoat} from './ship-factory';
+import Ship from './ship-factory';
 
 describe('intialize new carrier ship', () => {
-    let carrier = new Carrier();
+    let carrier = new Ship('carrier', 5);
 
     test('carrier is object', () => {
         expect(typeof(carrier)).toBe('object');
@@ -25,7 +25,7 @@ describe('intialize new carrier ship', () => {
 });
 
 describe('test ship functions', () => {
-    let carrier = new Carrier();
+    let carrier = new Ship('carrier', 5);
     let shipLocation = [21, 22, 23, 24, 25];
     let gridCoordinate = 24;
     carrier.setLocation(shipLocation);
