@@ -19,13 +19,13 @@ export default class Gameboard {
     }
 
     placeShipAt(ship, grids) {
-        grids.forEach((grid, index) => {
-            let currentGridSquare = this.gridSquares[ grid - 1 ];
+        grids.forEach(grid => {
+            let currentGridSquare = this.gridSquares[ grid - 1 ]
             let currentShipName = { shipName: ship.name };
             let hasShipProperty = { hasShip: true };
 
-            currentGridSquare = Object.assign(
-                currentShipName, hasShipProperty 
+            this.gridSquares[ grid - 1 ] = Object.assign(
+                {}, currentGridSquare, currentShipName, hasShipProperty 
             );
         })
 

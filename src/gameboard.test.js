@@ -40,10 +40,10 @@ describe('correctly execute gameboard functions', () => {
 
     test('each grid square has correct values', () => {
         gameboard.gridSquares.forEach((gridSquare, index) => {
-            if(gridSquares[index] === (index + 1)) {
+            if((index + 1) === gridSquares[index]) {
                 expect(gridSquare.hasShip).toBeTruthy();
                 expect(gridSquare.shipName).toBe(carrier.name);
-            };
+            }
         })
     });
     /*
