@@ -14,9 +14,6 @@ export default class Gameboard {
             this.gridSquares[ grid - 1 ] = Object.assign(
                 {}, currentGridSquare, { isHit: true } 
             );
-        } if(currentGridSquare.hasShip == true) {
-            let shipName = currentGridSquare.shipName;
-            console.log(shipName);
         }
     }
 
@@ -35,12 +32,10 @@ export default class Gameboard {
     getMissedAttacks() {
         let missedAttacks = [];
         this.gridSquares.forEach((gridSquare, index) => {
-
             if (gridSquare.isHit == true && gridSquare.hasShip == false) {
                 missedAttacks.push(index);
             }
         })
-
         return missedAttacks;
     }
 

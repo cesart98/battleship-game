@@ -54,4 +54,15 @@ describe('correctly execute gameboard functions', () => {
         let attackedGridSquare = gameboard.gridSquares[gridCoordinate - 1]
         expect(attackedGridSquare.isHit).toBeTruthy();
     });
+
+    let missedGridSquares = gameboard.getMissedAttacks();
+
+    test('correctly return missed attacks on board', () => {
+        gameboard.gridSquares.forEach((gridSquare, index) => {
+            if(missedGridSquares.includes(index)) {
+                expect(gridSquare.isHit).toBeTruthy();
+                expect(gridSquare.hasShip).toBeFalsy();
+            }
+        })
+    });
 });

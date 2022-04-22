@@ -21,6 +21,7 @@ async function main() {
 
     let gameboard = new Gameboard();
     gameboard.placeShipAt(carrier, [21, 22, 23, 24, 25]);
+    gameboard.receiveAttack(24);
     await alertBoard(gameboard);
 
     return;
