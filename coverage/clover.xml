@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1650665415085" clover="3.2.0">
-  <project timestamp="1650665415085" name="All files">
-    <metrics statements="29" coveredstatements="24" conditionals="8" coveredconditionals="6" methods="16" coveredmethods="13" elements="53" coveredelements="43" complexity="0" loc="29" ncloc="29" packages="1" files="2" classes="2"/>
+<coverage generated="1650666082476" clover="3.2.0">
+  <project timestamp="1650666082476" name="All files">
+    <metrics statements="29" coveredstatements="28" conditionals="8" coveredconditionals="6" methods="16" coveredmethods="16" elements="53" coveredelements="50" complexity="0" loc="29" ncloc="29" packages="1" files="2" classes="2"/>
     <file name="gameboard.js" path="/home/cesart98/projects/battleship-game/src/gameboard.js">
-      <metrics statements="18" coveredstatements="13" conditionals="6" coveredconditionals="4" methods="9" coveredmethods="6"/>
+      <metrics statements="18" coveredstatements="17" conditionals="6" coveredconditionals="4" methods="9" coveredmethods="9"/>
       <line num="3" count="2" type="stmt"/>
       <line num="6" count="2" type="stmt"/>
       <line num="11" count="1" type="stmt"/>
       <line num="13" count="1" type="cond" truecount="1" falsecount="1"/>
       <line num="14" count="1" type="stmt"/>
-      <line num="21" count="1" type="stmt"/>
-      <line num="22" count="5" type="stmt"/>
+      <line num="22" count="1" type="stmt"/>
       <line num="23" count="5" type="stmt"/>
-      <line num="25" count="5" type="stmt"/>
-      <line num="33" count="2" type="stmt"/>
+      <line num="24" count="5" type="stmt"/>
+      <line num="26" count="5" type="stmt"/>
       <line num="34" count="2" type="stmt"/>
-      <line num="35" count="200" type="cond" truecount="3" falsecount="1"/>
-      <line num="36" count="0" type="stmt"/>
-      <line num="39" count="2" type="stmt"/>
-      <line num="44" count="0" type="stmt"/>
-      <line num="45" count="0" type="stmt"/>
-      <line num="48" count="0" type="stmt"/>
-      <line num="49" count="0" type="stmt"/>
+      <line num="36" count="2" type="stmt"/>
+      <line num="37" count="200" type="cond" truecount="3" falsecount="1"/>
+      <line num="38" count="0" type="stmt"/>
+      <line num="41" count="2" type="stmt"/>
+      <line num="46" count="2" type="stmt"/>
+      <line num="47" count="200" type="stmt"/>
+      <line num="50" count="2" type="stmt"/>
+      <line num="51" count="2" type="stmt"/>
     </file>
     <file name="ship-factory.js" path="/home/cesart98/projects/battleship-game/src/ship-factory.js">
       <metrics statements="11" coveredstatements="11" conditionals="2" coveredconditionals="2" methods="7" coveredmethods="7"/>

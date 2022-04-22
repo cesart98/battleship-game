@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">72.22% </span>
+                <span class="strong">94.44% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>13/18</span>
+                <span class='fraction'>17/18</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">66.66% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>6/9</span>
+                <span class='fraction'>9/9</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">72.22% </span>
+                <span class="strong">94.44% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>13/18</span>
+                <span class='fraction'>17/18</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -136,6 +136,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
@@ -149,6 +150,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">200x</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -159,14 +161,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">200x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">export default class Gameboard {
@@ -189,6 +189,7 @@
     }
 &nbsp;
     placeShipAt(ship, grids) {
+&nbsp;
         grids.forEach(grid =&gt; {
             let currentGridSquare = this.gridSquares[ grid - 1 ]
             let currentShipName = { shipName: ship.name };
@@ -197,11 +198,12 @@
                 {}, currentGridSquare, currentShipName, { hasShip: true } 
             );
         })
-&nbsp;
     }
 &nbsp;
     getMissedAttacks() {
+&nbsp;
         let missedAttacks = [];
+&nbsp;
         this.gridSquares.forEach((gridSquare, index) =&gt; {
             <span class="missing-if-branch" title="if path not taken" >I</span>if (gridSquare.isHit == true &amp;&amp; gridSquare.hasShip == false) {
 <span class="cstat-no" title="statement not covered" >                missedAttacks.push(index);</span>
@@ -210,18 +212,16 @@
         return missedAttacks;
     }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    ar</span>eShipsSunk() {
+    areShipsSunk() {
 &nbsp;
-        let gridSquaresWithShips = <span class="cstat-no" title="statement not covered" >this.gridSquares.filter(<span class="fstat-no" title="function not covered" >gr</span>idSquare =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >            gridSquare.hasShip == true;</span>
-        })
+        let gridSquaresWithShips = this.gridSquares.filter(
+            gridSquare =&gt; gridSquare.hasShip == true
+        );
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        gridSquaresWithShips.every(<span class="fstat-no" title="function not covered" >gr</span>idSquare =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >            gridSquare.isHit == true;</span>
+        gridSquaresWithShips.every(gridSquare =&gt; {
+            gridSquare.isHit == true;
         })
-        
     }
-    
 }</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -229,7 +229,7 @@
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at Fri Apr 22 2022 17:10:15 GMT-0500 (Central Daylight Time)
+                at Fri Apr 22 2022 17:21:22 GMT-0500 (Central Daylight Time)
             </div>
         <script src="prettify.js"></script>
         <script>

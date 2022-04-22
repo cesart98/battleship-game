@@ -65,4 +65,9 @@ describe('correctly execute gameboard functions', () => {
             }
         })
     });
+
+    test('correctly returns boolean value when checking for ships sunk', () => {
+        expect(gameboard.areShipsSunk()).toBeFalsy();
+        expect(gameboard.areShipsSunk()).not.toBeTruthy();
+    });
 });

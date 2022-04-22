@@ -18,6 +18,7 @@ export default class Gameboard {
     }
 
     placeShipAt(ship, grids) {
+
         grids.forEach(grid => {
             let currentGridSquare = this.gridSquares[ grid - 1 ]
             let currentShipName = { shipName: ship.name };
@@ -26,11 +27,12 @@ export default class Gameboard {
                 {}, currentGridSquare, currentShipName, { hasShip: true } 
             );
         })
-
     }
 
     getMissedAttacks() {
+
         let missedAttacks = [];
+
         this.gridSquares.forEach((gridSquare, index) => {
             if (gridSquare.isHit == true && gridSquare.hasShip == false) {
                 missedAttacks.push(index);
@@ -41,14 +43,12 @@ export default class Gameboard {
 
     areShipsSunk() {
 
-        let gridSquaresWithShips = this.gridSquares.filter(gridSquare => {
-            gridSquare.hasShip == true;
-        })
+        let gridSquaresWithShips = this.gridSquares.filter(
+            gridSquare => gridSquare.hasShip == true
+        );
 
         gridSquaresWithShips.every(gridSquare => {
             gridSquare.isHit == true;
         })
-        
     }
-    
 }
