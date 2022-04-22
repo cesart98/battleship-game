@@ -10,8 +10,6 @@ describe('correctly intialize new gameboard', () => {
 
     test('grid squares length is 100', () => {
         expect(gameboard.gridSquares.length).toEqual(100);
-        
-
     });
 
     test('grid squares have correct start values', () => {
@@ -28,14 +26,14 @@ describe('correctly intialize new gameboard', () => {
 });
 
 describe('correctly execute gameboard functions', () => {
+    let gameboard = new Gameboard('gameboardOne');
 
-    let carrier = new Ship('carrier', 5);
     let gridSquareArray = [21, 22, 23, 24, 25];
     let gridCoordinate = 24;
 
-    let gameboard = new Gameboard('gameboardOne');
-
+    let carrier = new Ship('carrier', 5);
     carrier.setLocation(gridSquareArray);
+
     gameboard.placeShipAt(carrier, gridSquareArray);
 
     test('each grid square has correct values', () => {
@@ -66,7 +64,7 @@ describe('correctly execute gameboard functions', () => {
         })
     });
 
-    test('correctly returns boolean value when checking for ships sunk', () => {
+    test('returns correct value when checking for ships sunk', () => {
         expect(gameboard.areShipsSunk()).toBeFalsy();
         expect(gameboard.areShipsSunk()).not.toBeTruthy();
     });
