@@ -19,17 +19,16 @@ export default class Gameboard {
     }
 
     placeShipAt(ship, grids) {
-
         grids.forEach((grid, index) => {
+            let currentGridSquare = this.gridSquares[ grid - 1 ];
+            let currentShipName = { shipName: ship.name };
+            let hasShipProperty = { hasShip: true };
 
-            let coordinate  = grid[index];
-            let gridSquare = this.gridSquares[coordinate];
-
-            if(gridSquare.hasShip == false) {
-                this.gridSquares[coordinate].hasShip = true;
-                this.gridSquares[coordinate].shipName = ship.name;
-            }
+            currentGridSquare = Object.assign(
+                currentShipName, hasShipProperty 
+            );
         })
+
     }
 
     getMissedAttacks() {
