@@ -1,5 +1,5 @@
-import {Gameboard} from './gameboard';
-describe('intialize new gameboard', () => {
+import Gameboard from './gameboard';
+describe('correctly intialize new gameboard', () => {
     let gameboard = new Gameboard();
 
     test('gameboard is object', () => {
@@ -7,8 +7,7 @@ describe('intialize new gameboard', () => {
     });
 
     test('grid squares length is 100', () => {
-        expect(gameboard.gridSquares[0]).toBeUndefined();
-        expect(gameboard.gridSquares.length).toEqual(101);
+        expect(gameboard.gridSquares.length).toEqual(100);
         
 
     });
@@ -26,7 +25,7 @@ describe('intialize new gameboard', () => {
     });
 });
 /*
-describe('test ship functions', () => {
+describe('correctly execute gameboard functions', () => {
     let gameboard = new Gameboard();
     let shipLocation = [21, 22, 23, 24, 25];
     let gridCoordinate = 24;
