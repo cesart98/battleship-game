@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">76.19% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>11/22</span>
-            </div>
-        
-            
-            <div class='fl pad1y space-right2'>
-                <span class="strong">25% </span>
-                <span class="quiet">Branches</span>
-                <span class='fraction'>2/8</span>
-            </div>
-        
-            
-            <div class='fl pad1y space-right2'>
-                <span class="strong">55.55% </span>
-                <span class="quiet">Functions</span>
-                <span class='fraction'>5/9</span>
+                <span class='fraction'>16/21</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">50% </span>
+                <span class="quiet">Branches</span>
+                <span class='fraction'>4/8</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">66.66% </span>
+                <span class="quiet">Functions</span>
+                <span class='fraction'>6/9</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">76.19% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>11/22</span>
+                <span class='fraction'>16/21</span>
             </div>
         
             
@@ -120,29 +120,31 @@
 <a name='L55'></a><a href='#L55'>55</a>
 <a name='L56'></a><a href='#L56'>56</a>
 <a name='L57'></a><a href='#L57'>57</a>
-<a name='L58'></a><a href='#L58'>58</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L58'></a><a href='#L58'>58</a>
+<a name='L59'></a><a href='#L59'>59</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -185,15 +187,17 @@
         this.name = name;
     }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    re</span>ceiveAttack(coordinate) {
+    receiveAttack(grid) {
 &nbsp;
-        let gridSquare = <span class="cstat-no" title="statement not covered" >this.gridSquares[coordinate];</span>
+        let currentGridSquare = this.gridSquares[ grid - 1 ];
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        if(gridSquare.isHit == false) {</span>
-<span class="cstat-no" title="statement not covered" >            gridSquares[coordinate].isHit = true;</span>
-        } <span class="cstat-no" title="statement not covered" >if(gridSquare.hasShip == true) {</span>
-            let ship = <span class="cstat-no" title="statement not covered" >this.gridSquares[coordinate].shipName</span>
-<span class="cstat-no" title="statement not covered" >            ship.receiveAttack(coordinate);</span>
+        <span class="missing-if-branch" title="else path not taken" >E</span>if(currentGridSquare.isHit == false) {
+            this.gridSquares[ grid - 1 ] = Object.assign(
+                {}, currentGridSquare, { isHit: true } 
+            );
+        } <span class="missing-if-branch" title="else path not taken" >E</span>if(currentGridSquare.hasShip == true) {
+            let shipName = currentGridSquare.shipName;
+            console.log(shipName);
         }
     }
 &nbsp;
@@ -201,10 +205,9 @@
         grids.forEach(grid =&gt; {
             let currentGridSquare = this.gridSquares[ grid - 1 ]
             let currentShipName = { shipName: ship.name };
-            let hasShipProperty = { hasShip: true };
 &nbsp;
             this.gridSquares[ grid - 1 ] = Object.assign(
-                {}, currentGridSquare, currentShipName, hasShipProperty 
+                {}, currentGridSquare, currentShipName, { hasShip: true } 
             );
         })
 &nbsp;
@@ -241,7 +244,7 @@
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at Fri Apr 22 2022 16:35:57 GMT-0500 (Central Daylight Time)
+                at Fri Apr 22 2022 16:52:57 GMT-0500 (Central Daylight Time)
             </div>
         <script src="prettify.js"></script>
         <script>

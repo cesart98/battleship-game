@@ -2,7 +2,7 @@ import Gameboard from './gameboard';
 import Ship from './ship-factory';
 
 describe('correctly intialize new gameboard', () => {
-    let gameboard = new Gameboard();
+    let gameboard = new Gameboard('gameboardOne');
 
     test('gameboard is object', () => {
         expect(typeof(gameboard)).toBe('object');
@@ -30,32 +30,28 @@ describe('correctly intialize new gameboard', () => {
 describe('correctly execute gameboard functions', () => {
 
     let carrier = new Ship('carrier', 5);
-    let gridSquares = [21, 22, 23, 24, 25];
-    let gridSquareToAttack = 24;
+    let gridSquareArray = [21, 22, 23, 24, 25];
+    let gridCoordinate = 24;
 
-    let gameboard = new Gameboard();
+    let gameboard = new Gameboard('gameboardOne');
 
-    carrier.setLocation(gridSquares);
-    gameboard.placeShipAt(carrier, gridSquares);
+    carrier.setLocation(gridSquareArray);
+    gameboard.placeShipAt(carrier, gridSquareArray);
 
     test('each grid square has correct values', () => {
         gameboard.gridSquares.forEach((gridSquare, index) => {
-            if((index + 1) === gridSquares[index]) {
+            if((index + 1) === gridSquareArray[index]) {
                 expect(gridSquare.hasShip).toBeTruthy();
                 expect(gridSquare.shipName).toBe(carrier.name);
             }
         })
     });
-    /*
-    carrier.recieveAttack(gridSquareToAttack);
-    gameboard.recieveAttack(gridSquareToAttack);
 
-    test('attack ship part', () => {
-        gameboard.gridSquares.forEach((gridSquare) => {
-            if(gridSquare.location === gridSquareToAttack) {
-                expect(gridSquare.isHit).toBeTruthy();
-            }
-        })
+    carrier.recieveAttack(gridCoordinate);
+    gameboard.receiveAttack(gridCoordinate);
+
+    test('grid square attacked has correct values', () => {
+        let attackedGridSquare = gameboard.gridSquares[gridCoordinate - 1]
+        expect(attackedGridSquare.isHit).toBeTruthy();
     });
-    */
 });

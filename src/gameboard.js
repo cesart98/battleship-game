@@ -6,15 +6,17 @@ export default class Gameboard {
         this.name = name;
     }
 
-    receiveAttack(coordinate) {
+    receiveAttack(grid) {
 
-        let gridSquare = this.gridSquares[coordinate];
+        let currentGridSquare = this.gridSquares[ grid - 1 ];
 
-        if(gridSquare.isHit == false) {
-            gridSquares[coordinate].isHit = true;
-        } if(gridSquare.hasShip == true) {
-            let ship = this.gridSquares[coordinate].shipName
-            ship.receiveAttack(coordinate);
+        if(currentGridSquare.isHit == false) {
+            this.gridSquares[ grid - 1 ] = Object.assign(
+                {}, currentGridSquare, { isHit: true } 
+            );
+        } if(currentGridSquare.hasShip == true) {
+            let shipName = currentGridSquare.shipName;
+            console.log(shipName);
         }
     }
 
@@ -22,10 +24,9 @@ export default class Gameboard {
         grids.forEach(grid => {
             let currentGridSquare = this.gridSquares[ grid - 1 ]
             let currentShipName = { shipName: ship.name };
-            let hasShipProperty = { hasShip: true };
 
             this.gridSquares[ grid - 1 ] = Object.assign(
-                {}, currentGridSquare, currentShipName, hasShipProperty 
+                {}, currentGridSquare, currentShipName, { hasShip: true } 
             );
         })
 
