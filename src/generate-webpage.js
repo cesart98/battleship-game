@@ -32,7 +32,7 @@ export default async function generateWebpage() {
         generateShip('carrier');
         return;
     }
-    let container = document.querySelector('.container');
+    let container = document.querySelector('.gameboard-container');
     await generateGameBoard();
     await generatePlayerShips();
 
