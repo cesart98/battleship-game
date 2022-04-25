@@ -5,6 +5,10 @@ import './style.css'
 
 
 async function main() {
+    customElements.define('game-board', Gameboard);
+    await generateWebpage();
+    console.log('new branch')
+    /* 
     async function alertShip(alertthisship) {
         let theship = alertthisship;
         console.log(theship);
@@ -23,8 +27,9 @@ async function main() {
     gameboard.placeShipAt(carrier, [21, 22, 23, 24, 25]);
     gameboard.receiveAttack(24);
     await alertBoard(gameboard);
-
+    */
     return;
+
 }
 main();
 // generate gameboard

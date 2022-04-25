@@ -14,20 +14,6 @@
     border: solid black 1px;
 }
 
-.gameboard {
-    display: 0 0 auto;
-    height: clamp(500px, 500px, 500px);
-    width: clamp(500px, 500px, 500px);
-    display: grid;
-    grid-template-columns: repeat(10, 1fr);
-    grid-template-rows: repeat(10, 1fr);
-    background-color: white;
-}
-
-.gameboard > .droppable {
-    border: solid black 1px;
-}
-
 .hover {
     background-color: red;
 }

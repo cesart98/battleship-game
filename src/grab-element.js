@@ -33,7 +33,8 @@ export default function addDragDropBehavior(mousedownEvent, elem) {
                 return topmostElement;
             }
             let elementBelow = getElementBelow(event.clientX, event.clientY);
-            return elementBelow.closest('.droppable');
+            console.log(elementBelow);
+            return elementBelow.closest('grid-square');
         }
         const isOccupied = (event) => {
             droppable = getDroppableBelow(event);
@@ -45,7 +46,14 @@ export default function addDragDropBehavior(mousedownEvent, elem) {
             
         }
         const isEmpty = (event) => {
-            droppable = getDroppableBelow(event);
+            elem.hidden = true;
+            let elementBelow = document.elementFromPoint(event.clientX, event.clientY);
+            elem.hidden = false;
+
+            droppable = elementBelow.closest(Gameboard.shadowRoot);
+
+            console.log(elementBelow);
+            console.log(droppable)
             if(!droppable) {
                 return false;
             } else if(droppable.classList.contains('empty')) {
