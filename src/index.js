@@ -7,7 +7,12 @@ import './style.css'
 async function main() {
     customElements.define('game-board', Gameboard);
     await generateWebpage();
-    console.log('new branch')
+
+    let carrier = new Ship('carrierOne', 5);
+    carrier.setLocation([21, 22, 23, 24, 25]);
+
+    let gameboard = new Gameboard();
+    gameboard.placeShipAt(carrier, [21, 22, 23, 24, 25]);
     /* 
     async function alertShip(alertthisship) {
         let theship = alertthisship;

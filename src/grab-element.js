@@ -50,19 +50,20 @@ export default function addDragDropBehavior(mousedownEvent, elem) {
             let elementBelow = document.elementFromPoint(event.clientX, event.clientY);
             elem.hidden = false;
 
-            droppable = elementBelow.closest(Gameboard.shadowRoot);
+            droppable = elementBelow.closest('grid-square');
 
             console.log(elementBelow);
             console.log(droppable)
             if(!droppable) {
                 return false;
-            } else if(droppable.classList.contains('empty')) {
+            } else if(droppable.getAttribute('has-ship')) {
                 return true;
             }
         }
         const classifyAsEmpty = () => droppable.classList.replace('occupied', 'empty');
         const classifyAsOccupied = () => droppable.classList.replace('empty', 'occupied');
         const toggleHoverEffect = () => {
+            
             if(droppable.classList.contains('hover') && previousDroppable == null) {
                 droppable.classList.remove('hover');
                 return;

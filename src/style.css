@@ -7,6 +7,19 @@
     align-items: center;
 }
 
+game-board {
+    height: clamp(500px, 500px, 500px);
+    width: clamp(500px, 500px, 500px);
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(10, 1fr);
+    background-color: white;
+}
+
+grid-square {
+    border: solid black 1px;
+}
+
 .tugboat, .carrier {
     height: clamp(50px, 50px, 50px);
     width: clamp(50px, 50px, 50px);

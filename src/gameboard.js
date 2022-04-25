@@ -11,39 +11,20 @@ export default class Gameboard extends HTMLElement {
         
     }
 
-    connectedCallback() {
+    render() {
         // create shadow
-        this.attachShadow({mode: 'open'});
+        // this.attachShadow({mode: 'open'});
 
-        // set styles
-        this.shadowRoot.innerHTML = `
-            <style>
-                :host {
-                    height: clamp(500px, 500px, 500px);
-                    width: clamp(500px, 500px, 500px);
-                    display: grid;
-                    grid-template-columns: repeat(10, 1fr);
-                    grid-template-rows: repeat(10, 1fr);
-                    background-color: white;
-                }
-            </style>
-        `;
-
-        // create grid-square element class
+        // define custom grid-square element
         customElements.define('grid-square', class extends HTMLElement {
             connectedCallback() {
-                this.attachShadow({mode: 'open'});
-                this.shadowRoot.innerHTML = `
-                    <style>
-                        :host { border: solid black 1px; }
-                    </style>
-                `;
+                //this.attachShadow({mode: 'open'});
             }
         })
         
         // add 100 grid squares
         this.gridSquares.forEach((gridSquare, index) => {
-            this.shadowRoot.innerHTML += `
+            this.innerHTML += `
                 <grid-square id = ${index}
                     is-hit = ${gridSquare.isHit} 
                     has-ship = ${gridSquare.hasShip} 
@@ -53,6 +34,12 @@ export default class Gameboard extends HTMLElement {
         })
     }
 
+    connectedCallback() {
+        if(!this.rendered) {
+            this.render();
+            this.rendered = true;
+        }
+    }
     receiveAttack(grid) {
 
         let currentGridSquare = this.gridSquares[ grid ];
