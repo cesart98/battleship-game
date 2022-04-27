@@ -24,8 +24,10 @@ export default function addDragDropBehavior(mousedownEvent, elem) {
     })();
     const droppableBelow = (() => {
         let shipPartElements = Array.from(elem.children);
-        let previousDroppable;
+        let currentDroppableArray = Array(shipPartElements.length);
+        let previousDroppableArray;
         let droppable;
+
         function getDroppableBelow(event) {
             function getElemFromPoint(clientX, clientY) {
                 shipPartElements.forEach(shipPartElement => {
@@ -55,30 +57,53 @@ export default function addDragDropBehavior(mousedownEvent, elem) {
         }
         const isEmpty = (event) => {
             droppable = getDroppableBelow(event);
-            console.log({droppable})
             if(!droppable) {
                 return false;
             } else if(droppable.classList.contains('empty')) {
                 return true;
             }
         }
-        const classifyAsEmpty = () => droppable.classList.replace('occupied', 'empty');
-        const classifyAsOccupied = () => droppable.classList.replace('empty', 'occupied');
+        const classifyAsEmpty = () => {
+            currentDroppableArray.forEach(droppableElement => {
+                droppableElement.classList.replace('occupied', 'empty');
+            })
+        }
+        const classifyAsOccupied = () => {
+            currentDroppableArray.forEach(droppableElement => {
+                droppableElement.classList.replace('empty', 'occupied');
+            })
+        }
         const toggleHoverEffect = () => {
-            shipPartElements.forEach(shipPartElement => {
-                
-            });
-            if(droppable.classList.contains('hover') && previousDroppable == null) {
-                droppable.classList.remove('hover');
+            let middleIndex = (shipPartElements.length - 1) / 2;
+            console.log(droppable.parentElement.children);
+
+            for(let i = 0; i <= middleIndex; i++) {
+                if(i == 0) {
+                    currentDroppableArray[middleIndex] = droppable;
+                } else if(i != 0) {
+                    currentDroppableArray[(middleIndex - i)] = droppable.previousSibling;
+                    currentDroppableArray[(middleIndex + i)] = droppable.nextSibling;
+                }
+            }
+            if(droppable.classList.contains('hover') && !previousDroppableArray) {
+                currentDroppableArray.forEach(droppableElement => {
+                    droppableElement.classList.remove('hover');
+                })
                 return;
-            } else if(!droppable.classList.contains('hover') && previousDroppable == null) {
-                droppable.classList.add('hover');
-                previousDroppable = droppable;
+            } else if(!droppable.classList.contains('hover') && !previousDroppableArray) {
+                currentDroppableArray.forEach(droppableElement => {
+                    droppableElement.classList.add('hover');
+                })
+                previousDroppableArray = currentDroppableArray;
                 return;
-            } else if(!droppable.classList.contains('hover') && previousDroppable.classList.contains('hover')) {
-                previousDroppable.classList.remove('hover');
-                droppable.classList.add('hover');
-                previousDroppable = droppable;
+            } else if(!droppable.classList.contains('hover') && previousDroppableArray) {
+                previousDroppableArray.forEach(droppableElement => {
+                    droppableElement.classList.remove('hover');
+                })
+                currentDroppableArray.forEach(droppableElement => {
+                    droppableElement.classList.add('hover');
+                })
+                previousDroppableArray = currentDroppableArray;
             }
         }
         const recieveElement = () => droppable.appendChild(elem);
@@ -91,7 +116,6 @@ export default function addDragDropBehavior(mousedownEvent, elem) {
     if(droppableBelow.isOccupied(mousedownEvent)) {
         droppableBelow.classifyAsEmpty();
     }
-    console.log({elem})
     // (2) move elem as mouse moves
     document.onmousemove = (mousemoveEvent) => {
         mouse.dragElem(mousemoveEvent);
