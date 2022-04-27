@@ -22,7 +22,6 @@ body {
 
 .gameboard > div {
     border: solid black 1px;
-    background-color: white;
 }
 
 .carrier, .battleship,
@@ -40,6 +39,10 @@ body {
     width: clamp(50px, 50px, 50px);
     background-color: cyan;
     border: solid black 1px;
+}
+
+.empty {
+    background-color: white;
 }
 
 .hover {

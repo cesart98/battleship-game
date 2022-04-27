@@ -23,16 +23,25 @@ export default function addDragDropBehavior(mousedownEvent, elem) {
         return {grabElem, dragElem, dropElem}
     })();
     const droppableBelow = (() => {
+        let shipPartElements = Array.from(elem.children);
         let previousDroppable;
         let droppable;
         function getDroppableBelow(event) {
-            function getElementBelow(clientX, clientY) {
-                elem.hidden = true;
-                let topmostElement = document.elementFromPoint(clientX, clientY);
-                elem.hidden = false;
-                return topmostElement;
+            function getElemFromPoint(clientX, clientY) {
+                shipPartElements.forEach(shipPartElement => {
+                    shipPartElement.hidden = true;
+                });
+
+                let elemFromPoint = document.elementFromPoint(clientX, clientY);
+                
+                shipPartElements.forEach(shipPartElement => {
+                    shipPartElement.hidden = false;
+                });
+
+                return elemFromPoint;
             }
-            let elementBelow = getElementBelow(event.clientX, event.clientY);
+            let elementBelow = getElemFromPoint(event.clientX, event.clientY);
+
             return elementBelow.closest('.droppable');
         }
         const isOccupied = (event) => {
@@ -46,6 +55,7 @@ export default function addDragDropBehavior(mousedownEvent, elem) {
         }
         const isEmpty = (event) => {
             droppable = getDroppableBelow(event);
+            console.log({droppable})
             if(!droppable) {
                 return false;
             } else if(droppable.classList.contains('empty')) {
@@ -55,6 +65,9 @@ export default function addDragDropBehavior(mousedownEvent, elem) {
         const classifyAsEmpty = () => droppable.classList.replace('occupied', 'empty');
         const classifyAsOccupied = () => droppable.classList.replace('empty', 'occupied');
         const toggleHoverEffect = () => {
+            shipPartElements.forEach(shipPartElement => {
+                
+            });
             if(droppable.classList.contains('hover') && previousDroppable == null) {
                 droppable.classList.remove('hover');
                 return;
@@ -78,7 +91,7 @@ export default function addDragDropBehavior(mousedownEvent, elem) {
     if(droppableBelow.isOccupied(mousedownEvent)) {
         droppableBelow.classifyAsEmpty();
     }
-
+    console.log({elem})
     // (2) move elem as mouse moves
     document.onmousemove = (mousemoveEvent) => {
         mouse.dragElem(mousemoveEvent);
