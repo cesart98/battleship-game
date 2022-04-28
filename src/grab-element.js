@@ -43,20 +43,17 @@ export default function addDragDropBehavior(mousedownEvent, elem) {
             }
         }
         function getElemBelowMouse(event) {
-            function getElemFromPoint(clientX, clientY) {
-                shipPartElements.forEach(shipPartElement => {
-                    shipPartElement.hidden = true;
-                });
+            shipPartElements.forEach(shipPartElement => {
+                shipPartElement.hidden = true;
+            });
 
-                let elemFromPoint = document.elementFromPoint(clientX, clientY);
-                
-                shipPartElements.forEach(shipPartElement => {
-                    shipPartElement.hidden = false;
-                });
+            let elemBelowMouse = document.elementFromPoint(event.clientX, event.clientY);
+            
+            shipPartElements.forEach(shipPartElement => {
+                shipPartElement.hidden = false;
+            });
 
-                return elemFromPoint;
-            }
-            return getElemFromPoint(event.clientX, event.clientY);
+            return elemBelowMouse;
         }
 
         const areOccupied = (event) => {
