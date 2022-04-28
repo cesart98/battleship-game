@@ -29,7 +29,7 @@ export default function addDragDropBehavior(mousedownEvent, elem) {
         let droppableUnderMouse;
         let middleIndex = (shipPartElements.length - 1) / 2;
 
-        function setDroppableArray() {
+        function setCurrentDroppablesUnderElement() {
             for(let i = 0; i <= middleIndex; i++) {
                 if(i == 0) {
                     currentDroppablesUnderElement[middleIndex] = droppableUnderMouse;
@@ -61,7 +61,7 @@ export default function addDragDropBehavior(mousedownEvent, elem) {
             if(!droppableUnderMouse) {
                 return false;
             } else if(droppableUnderMouse.classList.contains('occupied')) {
-                setDroppableArray();
+                setCurrentDroppablesUnderElement();
                 return true;
             }
             
@@ -71,7 +71,7 @@ export default function addDragDropBehavior(mousedownEvent, elem) {
             if(!droppableUnderMouse) {
                 return false;
             } else if(droppableUnderMouse.classList.contains('empty')) {
-                setDroppableArray();
+                setCurrentDroppablesUnderElement();
                 return true;
             }
         }
