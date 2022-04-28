@@ -22,23 +22,23 @@ export default function addDragDropBehavior(mousedownEvent, elem) {
         }
         return {grabElem, dragElem, dropElem}
     })();
-    const droppableBelow = (() => {
+    const droppablesBelow = (() => {
         let shipPartElements = Array.from(elem.children);
-        let currentDroppableArray = Array(shipPartElements.length);
-        let previousDroppableArray;
+        let droppablesUnderElement = Array(shipPartElements.length);
+        let previousDroppablesUnderElement;
         let droppableUnderMouse;
         let middleIndex = (shipPartElements.length - 1) / 2;
 
         function setDroppableArray() {
             for(let i = 0; i <= middleIndex; i++) {
                 if(i == 0) {
-                    currentDroppableArray[middleIndex] = droppableUnderMouse;
+                    droppablesUnderElement[middleIndex] = droppableUnderMouse;
                 } else if(i == 1) {
-                    currentDroppableArray[(middleIndex - i)] = droppableUnderMouse.previousSibling;
-                    currentDroppableArray[(middleIndex + i)] = droppableUnderMouse.nextSibling;
-                }   else if(i == 2) {
-                    currentDroppableArray[(middleIndex - i)] = droppableUnderMouse.previousSibling.previousSibling;
-                    currentDroppableArray[(middleIndex + i)] = droppableUnderMouse.nextSibling.nextSibling;
+                    droppablesUnderElement[(middleIndex - i)] = droppableUnderMouse.previousSibling;
+                    droppablesUnderElement[(middleIndex + i)] = droppableUnderMouse.nextSibling;
+                } else if(i == 2) {
+                    droppablesUnderElement[(middleIndex - i)] = droppableUnderMouse.previousSibling.previousSibling;
+                    droppablesUnderElement[(middleIndex + i)] = droppableUnderMouse.nextSibling.nextSibling;
                 }
             }
         }
@@ -59,7 +59,7 @@ export default function addDragDropBehavior(mousedownEvent, elem) {
             return getElemFromPoint(event.clientX, event.clientY);
         }
 
-        const isOccupied = (event) => {
+        const areOccupied = (event) => {
             droppableUnderMouse = getElemBelowMouse(event).closest('.droppable');
             if(!droppableUnderMouse) {
                 return false;
@@ -69,7 +69,7 @@ export default function addDragDropBehavior(mousedownEvent, elem) {
             }
             
         }
-        const isEmpty = (event) => {
+        const areEmpty = (event) => {
             droppableUnderMouse = getElemBelowMouse(event).closest('.droppable');
             if(!droppableUnderMouse) {
                 return false;
@@ -79,75 +79,56 @@ export default function addDragDropBehavior(mousedownEvent, elem) {
             }
         }
         const classifyAsEmpty = () => {
-            currentDroppableArray.forEach(droppableElement => {
-                droppableElement.classList.replace('occupied', 'empty');
+            droppablesUnderElement.forEach(droppable => {
+                droppable.classList.replace('occupied', 'empty');
             })
         }
         const classifyAsOccupied = () => {
-            currentDroppableArray.forEach(droppableElement => {
-                droppableElement.classList.replace('empty', 'occupied');
+            droppablesUnderElement.forEach(droppable => {
+                droppable.classList.replace('empty', 'occupied');
             })
         }
         const toggleHoverEffect = () => {
-            // when ship enters gameboard, highlight tiles beneath
-            // when ship hovers over different tiles
-                //highlight new tiles and unhighlight old
-            console.log(currentDroppableArray);
-            console.log(previousDroppableArray);
-            currentDroppableArray.forEach(droppableElement => {
-                droppableElement.classList.add('hover');
-            })
-            previousDroppableArray = Array.from(currentDroppableArray);
-            console.log(droppableUnderMouse)
-            console.log(currentDroppableArray[middleIndex])
-            if(currentDroppableArray != previousDroppableArray) {
-                return;
-            } else if(currentDroppableArray == previousDroppableArray){
-                previousDroppableArray.forEach(droppableElement => {
-                    droppableElement.classList.remove('hover');
+            // when element first hovers over droppables
+            if(!droppableUnderMouse.classList.contains('hover') && !previousDroppablesUnderElement) {
+                droppablesUnderElement.forEach(droppable => {
+                    droppable.classList.add('hover');
                 })
+                previousDroppablesUnderElement = Array.from(droppablesUnderElement);
+                return;
             }
-            // if(droppable.classList.contains('hover') && !previousDroppableArray) {
-            //     currentDroppableArray.forEach(droppableElement => {
-            //         droppableElement.classList.remove('hover');
-            //     })
-            //     return;
-            // } else if(!droppable.classList.contains('hover') && !previousDroppableArray) {
-            //     currentDroppableArray.forEach(droppableElement => {
-            //         droppableElement.classList.add('hover');
-            //     })
-            //     previousDroppableArray = Array.from(currentDroppableArray);
-            //     return;
-            // } else if(!droppable.classList.contains('hover') && previousDroppableArray) {
-            //     previousDroppableArray.forEach(droppableElement => {
-            //         droppableElement.classList.remove('hover');
-            //     })
-            //     currentDroppableArray.forEach(droppableElement => {
-            //         droppableElement.classList.add('hover');
-            //     })
-            //     previousDroppableArray = Array.from(currentDroppableArray);
-            // }
+            // when element hovers into another droppable
+            if(droppableUnderMouse != previousDroppablesUnderElement[middleIndex]) {
+                previousDroppablesUnderElement.forEach(droppable => {
+                    droppable.classList.remove('hover');
+                })
+                droppablesUnderElement.forEach(droppable => {
+                    droppable.classList.add('hover');
+                })
+                previousDroppablesUnderElement = Array.from(droppablesUnderElement);
+                return;
+            }
         }
         const recieveElement = () => {
-            currentDroppableArray.forEach((droppableElement, index) => {
-                droppableElement.appendChild(shipPartElements[index]);
+            droppablesUnderElement.forEach((droppable, index) => {
+                droppable.appendChild(shipPartElements[index]);
             })
         }
-        return {isOccupied, isEmpty, classifyAsEmpty, classifyAsOccupied, toggleHoverEffect, recieveElement}
+        return {areOccupied, areEmpty, classifyAsEmpty, classifyAsOccupied, toggleHoverEffect, recieveElement}
     })();
 
     // (1) append elem under the mouse
     mouse.grabElem(mousedownEvent);
 
-    if(droppableBelow.isOccupied(mousedownEvent)) {
-        droppableBelow.classifyAsEmpty();
+    if(droppablesBelow.areOccupied(mousedownEvent)) {
+        droppablesBelow.classifyAsEmpty();
     }
     // (2) move elem as mouse moves
     document.onmousemove = (mousemoveEvent) => {
         mouse.dragElem(mousemoveEvent);
 
-        if(droppableBelow.isEmpty(mousemoveEvent)) {
-            droppableBelow.toggleHoverEffect();
+        if(droppablesBelow.areEmpty(mousemoveEvent)) {
+            droppablesBelow.toggleHoverEffect();
         }
     }
     
@@ -158,9 +139,9 @@ export default function addDragDropBehavior(mousedownEvent, elem) {
 
         mouse.dropElem(mouseupEvent);
 
-        if(droppableBelow.isEmpty(mouseupEvent)) {
-            droppableBelow.recieveElement();
-            droppableBelow.classifyAsOccupied();
+        if(droppablesBelow.areEmpty(mouseupEvent)) {
+            droppablesBelow.recieveElement();
+            droppablesBelow.classifyAsOccupied();
         }
     }
 }
