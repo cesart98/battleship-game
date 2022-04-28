@@ -26,9 +26,23 @@ export default function addDragDropBehavior(mousedownEvent, elem) {
         let shipPartElements = Array.from(elem.children);
         let currentDroppableArray = Array(shipPartElements.length);
         let previousDroppableArray;
-        let droppable;
+        let droppableUnderMouse;
+        let middleIndex = (shipPartElements.length - 1) / 2;
 
-        function getDroppableBelow(event) {
+        function setDroppableArray() {
+            for(let i = 0; i <= middleIndex; i++) {
+                if(i == 0) {
+                    currentDroppableArray[middleIndex] = droppableUnderMouse;
+                } else if(i == 1) {
+                    currentDroppableArray[(middleIndex - i)] = droppableUnderMouse.previousSibling;
+                    currentDroppableArray[(middleIndex + i)] = droppableUnderMouse.nextSibling;
+                }   else if(i == 2) {
+                    currentDroppableArray[(middleIndex - i)] = droppableUnderMouse.previousSibling.previousSibling;
+                    currentDroppableArray[(middleIndex + i)] = droppableUnderMouse.nextSibling.nextSibling;
+                }
+            }
+        }
+        function getElemBelowMouse(event) {
             function getElemFromPoint(clientX, clientY) {
                 shipPartElements.forEach(shipPartElement => {
                     shipPartElement.hidden = true;
@@ -42,24 +56,25 @@ export default function addDragDropBehavior(mousedownEvent, elem) {
 
                 return elemFromPoint;
             }
-            let elementBelow = getElemFromPoint(event.clientX, event.clientY);
-
-            return elementBelow.closest('.droppable');
+            return getElemFromPoint(event.clientX, event.clientY);
         }
+
         const isOccupied = (event) => {
-            droppable = getDroppableBelow(event);
-            if(!droppable) {
+            droppableUnderMouse = getElemBelowMouse(event).closest('.droppable');
+            if(!droppableUnderMouse) {
                 return false;
-            } else if(droppable.classList.contains('occupied')) {
+            } else if(droppableUnderMouse.classList.contains('occupied')) {
+                setDroppableArray();
                 return true;
             }
             
         }
         const isEmpty = (event) => {
-            droppable = getDroppableBelow(event);
-            if(!droppable) {
+            droppableUnderMouse = getElemBelowMouse(event).closest('.droppable');
+            if(!droppableUnderMouse) {
                 return false;
-            } else if(droppable.classList.contains('empty')) {
+            } else if(droppableUnderMouse.classList.contains('empty')) {
+                setDroppableArray();
                 return true;
             }
         }
@@ -74,39 +89,50 @@ export default function addDragDropBehavior(mousedownEvent, elem) {
             })
         }
         const toggleHoverEffect = () => {
-            let middleIndex = (shipPartElements.length - 1) / 2;
-            console.log(droppable.parentElement.children);
-
-            for(let i = 0; i <= middleIndex; i++) {
-                if(i == 0) {
-                    currentDroppableArray[middleIndex] = droppable;
-                } else if(i != 0) {
-                    currentDroppableArray[(middleIndex - i)] = droppable.previousSibling;
-                    currentDroppableArray[(middleIndex + i)] = droppable.nextSibling;
-                }
-            }
-            if(droppable.classList.contains('hover') && !previousDroppableArray) {
-                currentDroppableArray.forEach(droppableElement => {
-                    droppableElement.classList.remove('hover');
-                })
+            // when ship enters gameboard, highlight tiles beneath
+            // when ship hovers over different tiles
+                //highlight new tiles and unhighlight old
+            console.log(currentDroppableArray);
+            console.log(previousDroppableArray);
+            currentDroppableArray.forEach(droppableElement => {
+                droppableElement.classList.add('hover');
+            })
+            previousDroppableArray = Array.from(currentDroppableArray);
+            console.log(droppableUnderMouse)
+            console.log(currentDroppableArray[middleIndex])
+            if(currentDroppableArray != previousDroppableArray) {
                 return;
-            } else if(!droppable.classList.contains('hover') && !previousDroppableArray) {
-                currentDroppableArray.forEach(droppableElement => {
-                    droppableElement.classList.add('hover');
-                })
-                previousDroppableArray = currentDroppableArray;
-                return;
-            } else if(!droppable.classList.contains('hover') && previousDroppableArray) {
+            } else if(currentDroppableArray == previousDroppableArray){
                 previousDroppableArray.forEach(droppableElement => {
                     droppableElement.classList.remove('hover');
                 })
-                currentDroppableArray.forEach(droppableElement => {
-                    droppableElement.classList.add('hover');
-                })
-                previousDroppableArray = currentDroppableArray;
             }
+            // if(droppable.classList.contains('hover') && !previousDroppableArray) {
+            //     currentDroppableArray.forEach(droppableElement => {
+            //         droppableElement.classList.remove('hover');
+            //     })
+            //     return;
+            // } else if(!droppable.classList.contains('hover') && !previousDroppableArray) {
+            //     currentDroppableArray.forEach(droppableElement => {
+            //         droppableElement.classList.add('hover');
+            //     })
+            //     previousDroppableArray = Array.from(currentDroppableArray);
+            //     return;
+            // } else if(!droppable.classList.contains('hover') && previousDroppableArray) {
+            //     previousDroppableArray.forEach(droppableElement => {
+            //         droppableElement.classList.remove('hover');
+            //     })
+            //     currentDroppableArray.forEach(droppableElement => {
+            //         droppableElement.classList.add('hover');
+            //     })
+            //     previousDroppableArray = Array.from(currentDroppableArray);
+            // }
         }
-        const recieveElement = () => droppable.appendChild(elem);
+        const recieveElement = () => {
+            currentDroppableArray.forEach((droppableElement, index) => {
+                droppableElement.appendChild(shipPartElements[index]);
+            })
+        }
         return {isOccupied, isEmpty, classifyAsEmpty, classifyAsOccupied, toggleHoverEffect, recieveElement}
     })();
 
