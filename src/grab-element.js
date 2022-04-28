@@ -1,7 +1,7 @@
 export default function addDragDropBehavior(mousedownEvent, elem) {
     const mouse = (() => {
         function moveElem(pageX, pageY) {
-            elem.style.left = pageX - elem.offsetWidth / 2 + 'px';
+            elem.style.left = pageX - (elem.offsetWidth / 2) + 5 + 'px';
             elem.style.top = pageY - elem.offsetHeight / 2 + 'px';
         }
         const grabElem = (event) => {
@@ -24,7 +24,7 @@ export default function addDragDropBehavior(mousedownEvent, elem) {
     })();
     const droppablesBelow = (() => {
         let shipPartElements = Array.from(elem.children);
-        let droppablesUnderElement = Array(shipPartElements.length);
+        let currentDroppablesUnderElement = Array(shipPartElements.length);
         let previousDroppablesUnderElement;
         let droppableUnderMouse;
         let middleIndex = (shipPartElements.length - 1) / 2;
@@ -32,13 +32,13 @@ export default function addDragDropBehavior(mousedownEvent, elem) {
         function setDroppableArray() {
             for(let i = 0; i <= middleIndex; i++) {
                 if(i == 0) {
-                    droppablesUnderElement[middleIndex] = droppableUnderMouse;
+                    currentDroppablesUnderElement[middleIndex] = droppableUnderMouse;
                 } else if(i == 1) {
-                    droppablesUnderElement[(middleIndex - i)] = droppableUnderMouse.previousSibling;
-                    droppablesUnderElement[(middleIndex + i)] = droppableUnderMouse.nextSibling;
+                    currentDroppablesUnderElement[(middleIndex - i)] = droppableUnderMouse.previousSibling;
+                    currentDroppablesUnderElement[(middleIndex + i)] = droppableUnderMouse.nextSibling;
                 } else if(i == 2) {
-                    droppablesUnderElement[(middleIndex - i)] = droppableUnderMouse.previousSibling.previousSibling;
-                    droppablesUnderElement[(middleIndex + i)] = droppableUnderMouse.nextSibling.nextSibling;
+                    currentDroppablesUnderElement[(middleIndex - i)] = droppableUnderMouse.previousSibling.previousSibling;
+                    currentDroppablesUnderElement[(middleIndex + i)] = droppableUnderMouse.nextSibling.nextSibling;
                 }
             }
         }
@@ -79,22 +79,22 @@ export default function addDragDropBehavior(mousedownEvent, elem) {
             }
         }
         const classifyAsEmpty = () => {
-            droppablesUnderElement.forEach(droppable => {
+            currentDroppablesUnderElement.forEach(droppable => {
                 droppable.classList.replace('occupied', 'empty');
             })
         }
         const classifyAsOccupied = () => {
-            droppablesUnderElement.forEach(droppable => {
+            currentDroppablesUnderElement.forEach(droppable => {
                 droppable.classList.replace('empty', 'occupied');
             })
         }
         const toggleHoverEffect = () => {
             // when element first hovers over droppables
             if(!droppableUnderMouse.classList.contains('hover') && !previousDroppablesUnderElement) {
-                droppablesUnderElement.forEach(droppable => {
+                currentDroppablesUnderElement.forEach(droppable => {
                     droppable.classList.add('hover');
                 })
-                previousDroppablesUnderElement = Array.from(droppablesUnderElement);
+                previousDroppablesUnderElement = Array.from(currentDroppablesUnderElement);
                 return;
             }
             // when element hovers into another droppable
@@ -102,15 +102,15 @@ export default function addDragDropBehavior(mousedownEvent, elem) {
                 previousDroppablesUnderElement.forEach(droppable => {
                     droppable.classList.remove('hover');
                 })
-                droppablesUnderElement.forEach(droppable => {
+                currentDroppablesUnderElement.forEach(droppable => {
                     droppable.classList.add('hover');
                 })
-                previousDroppablesUnderElement = Array.from(droppablesUnderElement);
+                previousDroppablesUnderElement = Array.from(currentDroppablesUnderElement);
                 return;
             }
         }
         const recieveElement = () => {
-            droppablesUnderElement.forEach((droppable, index) => {
+            currentDroppablesUnderElement.forEach((droppable, index) => {
                 droppable.appendChild(shipPartElements[index]);
             })
         }
