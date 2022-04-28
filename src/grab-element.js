@@ -1,7 +1,7 @@
 export default function addDragDropBehavior(mousedownEvent, elem) {
     const mouse = (() => {
         function moveElem(pageX, pageY) {
-            elem.style.left = pageX - (elem.offsetWidth / 2) + 5 + 'px';
+            elem.style.left = pageX - elem.offsetWidth / 2 + 'px';
             elem.style.top = pageY - elem.offsetHeight / 2 + 'px';
         }
         const grabElem = (event) => {
