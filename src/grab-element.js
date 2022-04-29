@@ -24,90 +24,88 @@ export default function addDragDropBehavior(mousedownEvent, elem) {
     })();
     const droppablesBelow = (() => {
         let shipPartElements = Array.from(elem.children);
-        let currentDroppablesUnderElement = Array(shipPartElements.length);
-        let previousDroppablesUnderElement;
+        let currentDroppablesBelow = [];
+        let previousDroppablesBelow;
         let droppableUnderMouse;
         let middleIndex = (shipPartElements.length - 1) / 2;
-
-        function setCurrentDroppablesUnderElement() {
-            for(let i = 0; i <= middleIndex; i++) {
-                if(i == 0) {
-                    currentDroppablesUnderElement[middleIndex] = droppableUnderMouse;
-                } else if(i == 1) {
-                    currentDroppablesUnderElement[(middleIndex - i)] = droppableUnderMouse.previousSibling;
-                    currentDroppablesUnderElement[(middleIndex + i)] = droppableUnderMouse.nextSibling;
-                } else if(i == 2) {
-                    currentDroppablesUnderElement[(middleIndex - i)] = droppableUnderMouse.previousSibling.previousSibling;
-                    currentDroppablesUnderElement[(middleIndex + i)] = droppableUnderMouse.nextSibling.nextSibling;
-                }
-            }
-        }
-        function getElemBelowMouse(event) {
+        
+        function getElemBelow(x, y) {
             shipPartElements.forEach(shipPartElement => {
                 shipPartElement.hidden = true;
             });
 
-            let elemBelowMouse = document.elementFromPoint(event.clientX, event.clientY);
+            let elemBelowMouse = document.elementFromPoint(x, y);
             
             shipPartElements.forEach(shipPartElement => {
                 shipPartElement.hidden = false;
             });
-
             return elemBelowMouse;
         }
-
-        const areOccupied = (event) => {
-            droppableUnderMouse = getElemBelowMouse(event).closest('.droppable');
+        function setCurrentDroppablesBelow() {
+            shipPartElements.forEach((shipPart, index) => {
+                let shipPartX = (shipPart.getBoundingClientRect().left + (shipPart.getBoundingClientRect().width * 0.5));
+                let shipPartY = (shipPart.getBoundingClientRect().top + (shipPart.getBoundingClientRect().height * 0.5));
+                let elemBelow = getElemBelow(shipPartX, shipPartY);
+                currentDroppablesBelow[index] = elemBelow;
+            })
+        }
+        const areOccupied = (event) => { // to-do: combine w/ areEmpty
+            droppableUnderMouse = getElemBelow(event.clientX, event.clientY).closest('.droppable');
             if(!droppableUnderMouse) {
                 return false;
             } else if(droppableUnderMouse.classList.contains('occupied')) {
-                setCurrentDroppablesUnderElement();
+                setCurrentDroppablesBelow();
                 return true;
             }
             
         }
-        const areEmpty = (event) => {
-            droppableUnderMouse = getElemBelowMouse(event).closest('.droppable');
+        const areEmpty = (event) => { // to-do: combine w/ areOccupied
+            droppableUnderMouse = getElemBelow(event.clientX, event.clientY).closest('.droppable');
+
+            console.log(event);
+            console.log(droppableUnderMouse);
+            console.log(droppableUnderMouse.getBoundingClientRect());
+
             if(!droppableUnderMouse) {
                 return false;
             } else if(droppableUnderMouse.classList.contains('empty')) {
-                setCurrentDroppablesUnderElement();
+                setCurrentDroppablesBelow(event);
                 return true;
             }
         }
         const classifyAsEmpty = () => {
-            currentDroppablesUnderElement.forEach(droppable => {
+            currentDroppablesBelow.forEach(droppable => {
                 droppable.classList.replace('occupied', 'empty');
             })
         }
         const classifyAsOccupied = () => {
-            currentDroppablesUnderElement.forEach(droppable => {
+            currentDroppablesBelow.forEach(droppable => {
                 droppable.classList.replace('empty', 'occupied');
             })
         }
         const toggleHoverEffect = () => {
             // when element first hovers over droppables
-            if(!droppableUnderMouse.classList.contains('hover') && !previousDroppablesUnderElement) {
-                currentDroppablesUnderElement.forEach(droppable => {
+            if(!droppableUnderMouse.classList.contains('hover') && !previousDroppablesBelow) {
+                currentDroppablesBelow.forEach(droppable => {
                     droppable.classList.add('hover');
                 })
-                previousDroppablesUnderElement = Array.from(currentDroppablesUnderElement);
+                previousDroppablesBelow = Array.from(currentDroppablesBelow);
                 return;
             }
-            // when element hovers into another droppable
-            if(droppableUnderMouse != previousDroppablesUnderElement[middleIndex]) {
-                previousDroppablesUnderElement.forEach(droppable => {
+            // when element hovers over another droppable
+            if(droppableUnderMouse != previousDroppablesBelow[middleIndex]) {
+                previousDroppablesBelow.forEach(droppable => {
                     droppable.classList.remove('hover');
                 })
-                currentDroppablesUnderElement.forEach(droppable => {
+                currentDroppablesBelow.forEach(droppable => {
                     droppable.classList.add('hover');
                 })
-                previousDroppablesUnderElement = Array.from(currentDroppablesUnderElement);
+                previousDroppablesBelow = Array.from(currentDroppablesBelow);
                 return;
             }
         }
         const recieveElement = () => {
-            currentDroppablesUnderElement.forEach((droppable, index) => {
+            currentDroppablesBelow.forEach((droppable, index) => {
                 droppable.appendChild(shipPartElements[index]);
             })
         }
