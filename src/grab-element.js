@@ -22,12 +22,10 @@ export default function addDragDropBehavior(mousedownEvent, elem) {
         }
         return {grabElem, dragElem, dropElem}
     })();
-    const droppablesBelow = (() => {
+    const elementsBelow = (() => {
         let shipPartElements = Array.from(elem.children);
-        let currentDroppablesBelow = [];
-        let previousDroppablesBelow;
-        let droppableUnderMouse;
-        let middleIndex = (shipPartElements.length - 1) / 2;
+        let currentElementsBelow = [];
+        let previousElementsBelow;
         
         function getElemBelow(x, y) {
             shipPartElements.forEach(shipPartElement => {
@@ -41,89 +39,68 @@ export default function addDragDropBehavior(mousedownEvent, elem) {
             });
             return elemBelowMouse;
         }
-        function setCurrentDroppablesBelow() {
+        function setCurrentElementsBelow() {
             shipPartElements.forEach((shipPart, index) => {
                 let shipPartX = (shipPart.getBoundingClientRect().left + (shipPart.getBoundingClientRect().width * 0.5));
                 let shipPartY = (shipPart.getBoundingClientRect().top + (shipPart.getBoundingClientRect().height * 0.5));
                 let elemBelow = getElemBelow(shipPartX, shipPartY);
-                currentDroppablesBelow[index] = elemBelow;
+                currentElementsBelow[index] = elemBelow;
             })
         }
-        const areOccupied = (event) => { // to-do: combine w/ areEmpty
-            droppableUnderMouse = getElemBelow(event.clientX, event.clientY).closest('.droppable');
-            if(!droppableUnderMouse) {
-                return false;
-            } else if(droppableUnderMouse.classList.contains('occupied')) {
-                setCurrentDroppablesBelow();
-                return true;
-            }
-            
-        }
-        const areEmpty = (event) => { // to-do: combine w/ areOccupied
-            droppableUnderMouse = getElemBelow(event.clientX, event.clientY).closest('.droppable');
-
-            console.log(event);
-            console.log(droppableUnderMouse);
-            console.log(droppableUnderMouse.getBoundingClientRect());
-
-            if(!droppableUnderMouse) {
-                return false;
-            } else if(droppableUnderMouse.classList.contains('empty')) {
-                setCurrentDroppablesBelow(event);
+        const haveClassName = (className) => {
+            setCurrentElementsBelow();
+            if(currentElementsBelow.every(elementBelow => elementBelow.classList.contains(className))) {
                 return true;
             }
         }
         const classifyAsEmpty = () => {
-            currentDroppablesBelow.forEach(droppable => {
-                droppable.classList.replace('occupied', 'empty');
+            currentElementsBelow.forEach(elementBelow => {
+                elementBelow.classList.replace('occupied', 'empty');
             })
         }
         const classifyAsOccupied = () => {
-            currentDroppablesBelow.forEach(droppable => {
-                droppable.classList.replace('empty', 'occupied');
+            currentElementsBelow.forEach(elementBelow => {
+                elementBelow.classList.replace('empty', 'occupied');
             })
         }
         const toggleHoverEffect = () => {
-            // when element first hovers over droppables
-            if(!droppableUnderMouse.classList.contains('hover') && !previousDroppablesBelow) {
-                currentDroppablesBelow.forEach(droppable => {
-                    droppable.classList.add('hover');
-                })
-                previousDroppablesBelow = Array.from(currentDroppablesBelow);
-                return;
+            if(!previousElementsBelow) {
+                previousElementsBelow = Array.from(currentElementsBelow);
             }
-            // when element hovers over another droppable
-            if(droppableUnderMouse != previousDroppablesBelow[middleIndex]) {
-                previousDroppablesBelow.forEach(droppable => {
-                    droppable.classList.remove('hover');
+
+            currentElementsBelow.forEach(droppable => {
+                droppable.classList.add('hover');
+            })
+
+            if(currentElementsBelow.some((elementBelow, index) => elementBelow != previousElementsBelow[index])) {
+                previousElementsBelow.forEach(droppable => {
+                    if(!currentElementsBelow.includes(droppable)) {
+                        droppable.classList.remove('hover')
+                    }
+                    previousElementsBelow = Array.from(currentElementsBelow);
                 })
-                currentDroppablesBelow.forEach(droppable => {
-                    droppable.classList.add('hover');
-                })
-                previousDroppablesBelow = Array.from(currentDroppablesBelow);
-                return;
             }
         }
         const recieveElement = () => {
-            currentDroppablesBelow.forEach((droppable, index) => {
-                droppable.appendChild(shipPartElements[index]);
+            currentElementsBelow.forEach((elementBelow, index) => {
+                elementBelow.appendChild(shipPartElements[index]);
             })
         }
-        return {areOccupied, areEmpty, classifyAsEmpty, classifyAsOccupied, toggleHoverEffect, recieveElement}
+        return {haveClassName, classifyAsEmpty, classifyAsOccupied, toggleHoverEffect, recieveElement}
     })();
 
     // (1) append elem under the mouse
     mouse.grabElem(mousedownEvent);
 
-    if(droppablesBelow.areOccupied(mousedownEvent)) {
-        droppablesBelow.classifyAsEmpty();
+    if(elementsBelow.haveClassName('occupied')) {
+        elementsBelow.classifyAsEmpty();
     }
     // (2) move elem as mouse moves
     document.onmousemove = (mousemoveEvent) => {
         mouse.dragElem(mousemoveEvent);
 
-        if(droppablesBelow.areEmpty(mousemoveEvent)) {
-            droppablesBelow.toggleHoverEffect();
+        if(elementsBelow.haveClassName('droppable')) {
+            elementsBelow.toggleHoverEffect();
         }
     }
     
@@ -134,9 +111,9 @@ export default function addDragDropBehavior(mousedownEvent, elem) {
 
         mouse.dropElem(mouseupEvent);
 
-        if(droppablesBelow.areEmpty(mouseupEvent)) {
-            droppablesBelow.recieveElement();
-            droppablesBelow.classifyAsOccupied();
+        if(elementsBelow.haveClassName('empty')) {
+            elementsBelow.recieveElement();
+            elementsBelow.classifyAsOccupied();
         }
     }
 }
