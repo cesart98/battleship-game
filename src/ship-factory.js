@@ -6,7 +6,7 @@ export default class Ship {
         this.name = name;
     }
 
-    recieveAttack(grid) {
+    receiveAttack(grid) {
         this.shipParts.forEach((shipPart, index) => {
             if(shipPart.location === grid) {
                 this.shipParts[index].isHit = true;
