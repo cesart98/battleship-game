@@ -8,10 +8,10 @@ export default class Gameboard {
 
     receiveAttack(grid) {
 
-        let currentGridSquare = this.gridSquares[ grid - 1 ];
+        let currentGridSquare = this.gridSquares[ grid ];
 
         if(currentGridSquare.isHit == false) {
-            this.gridSquares[ grid - 1 ] = Object.assign(
+            this.gridSquares[ grid ] = Object.assign(
                 {}, currentGridSquare, { isHit: true } 
             );
         }
@@ -20,10 +20,10 @@ export default class Gameboard {
     placeShipAt(ship, grids) {
 
         grids.forEach(grid => {
-            let currentGridSquare = this.gridSquares[ grid - 1 ]
+            let currentGridSquare = this.gridSquares[ grid ]
             let currentShipName = { shipName: ship.name };
 
-            this.gridSquares[ grid - 1 ] = Object.assign(
+            this.gridSquares[ grid ] = Object.assign(
                 {}, currentGridSquare, currentShipName, { hasShip: true } 
             );
         })
