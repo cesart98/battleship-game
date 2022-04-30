@@ -25,8 +25,8 @@ body {
     border: solid black 1px;
 }
 
-.carrier, .battleship,
-.destroyer, .submarine,
+.carrier, .destroyer,
+.cruiser, .submarine,
 .patrol-boat {
     display: flex;
     flex-direction: row;

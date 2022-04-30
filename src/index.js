@@ -7,7 +7,7 @@ async function main() {
 
     let cesar = new Player('Cesar');
     let audrey = new Player('Audrey')
-    //when user presses ready, assign grid values
+    
     cesar.gameboard.setShipLocations();
 
     cesar.attackGameboard(cesar.gameboard, 4)
