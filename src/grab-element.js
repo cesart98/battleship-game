@@ -109,9 +109,8 @@ export default function addDragDropBehavior(mousedownEvent, elem) {
         document.onmousemove = null;
         mouse.onmouseup = null;
 
-        mouse.dropElem(mouseupEvent);
-
         if(elementsBelow.haveClassName('empty')) {
+            mouse.dropElem(mouseupEvent);
             elementsBelow.recieveElement();
             elementsBelow.classifyAsOccupied();
         }
