@@ -1,21 +1,10 @@
+import Gameboard from './gameboard.js'
+
 export default class Player {
     constructor(name) {
         this.name = name;
-        this.playerShips = {};
-        this.enemyGameboard = {};
-        this.playerGameboard = {};
+        this.gameboard = new Gameboard();
     }
-
-    setPlayerShips(shipsToAssign) {
-        this.playerShips = shipsToAssign;
-    }
-    setEnemyGameboard(gameboardToAssign) {
-        this.enemyGameboard = gameboardToAssign;
-    }
-    setPlayerGameboard(gameboardToAssign) {
-        this.playerGameboard = gameboardToAssign;
-    }
-
     attackGameboard(gameboard, grid) {
         gameboard.receiveAttack(grid);
     }

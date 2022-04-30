@@ -1,29 +1,19 @@
 import generateWebpage from './generate-webpage.js';
-import Ship from './ship-factory.js';
-import Gameboard from './gameboard.js'
+import Player from './player-factory.js'
 import './style.css'
 
-
 async function main() {
-    async function alertShip(alertthisship) {
-        let theship = alertthisship;
-        console.log(theship);
-        return;
-    }
-    async function alertBoard(alertThis) {
-        let theBoard = alertThis;
-        console.log(theBoard);
-        return;
-    }
-    let carrier = new Ship('carrierOne', 5);
-    carrier.setLocation([21, 22, 23, 24, 25]);
-    await alertShip(carrier);
+    await generateWebpage();
 
-    let gameboard = new Gameboard();
-    gameboard.placeShipAt(carrier, [21, 22, 23, 24, 25]);
-    gameboard.receiveAttack(24);
-    await alertBoard(gameboard);
-    generateWebpage();
+    let cesar = new Player('Cesar');
+    let audrey = new Player('Audrey')
+    //when user presses ready, assign grid values
+    cesar.gameboard.setShipLocations();
+
+    cesar.attackGameboard(cesar.gameboard, 4)
+
+    console.log(cesar);
+    console.log(audrey);
 
     return;
 }
