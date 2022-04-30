@@ -21,6 +21,7 @@ body {
 }
 
 .gameboard > div {
+    box-sizing: border-box;
     border: solid black 1px;
 }
 
@@ -34,6 +35,7 @@ body {
 }
 
 .ship-part {
+    box-sizing: border-box;
     flex: 0 0 auto;
     height: clamp(50px, 50px, 50px);
     width: clamp(50px, 50px, 50px);
