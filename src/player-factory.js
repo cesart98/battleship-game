@@ -1,6 +1,6 @@
 export default class Player {
-    constructor() {
-
+    constructor(name) {
+        this.name = name;
     }
 
     attackGameboard(gameboard, grid) {
