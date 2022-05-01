@@ -39,7 +39,7 @@ export default function addDragDropBehavior(mousedownEvent, elem) {
             });
             return elemBelowMouse;
         }
-        function setCurrentElementsBelow() {
+        const setCurrentElementsBelow = () => {
             shipPartElements.forEach((shipPart, index) => {
                 let shipPartX = (shipPart.getBoundingClientRect().left + (shipPart.getBoundingClientRect().width * 0.5));
                 let shipPartY = (shipPart.getBoundingClientRect().top + (shipPart.getBoundingClientRect().height * 0.5));
@@ -63,22 +63,37 @@ export default function addDragDropBehavior(mousedownEvent, elem) {
                 elementBelow.classList.replace('empty', 'occupied');
             })
         }
-        const toggleHoverEffect = () => {
-            if(!previousElementsBelow) {
-                previousElementsBelow = Array.from(currentElementsBelow);
-            }
-
-            currentElementsBelow.forEach(droppable => {
-                droppable.classList.add('hover');
-            })
-
-            if(currentElementsBelow.some((elementBelow, index) => elementBelow != previousElementsBelow[index])) {
-                previousElementsBelow.forEach(droppable => {
-                    if(!currentElementsBelow.includes(droppable)) {
-                        droppable.classList.remove('hover')
-                    }
-                    previousElementsBelow = Array.from(currentElementsBelow);
+        const handleHoverEffect = () => {
+            // if every element below is droppable...
+            if(currentElementsBelow.every(elementBelow => elementBelow.classList.contains('droppable'))) {
+                
+                // add hover class name
+                currentElementsBelow.forEach(elementBelow => {
+                    elementBelow.classList.add('hover');
                 })
+
+                // set previous elements array if not set.
+                if(!previousElementsBelow) {
+                    previousElementsBelow = Array.from(currentElementsBelow);
+                }
+
+                // if any element does not equal the previous one...
+                if(currentElementsBelow.some((elementBelow, index) => elementBelow != previousElementsBelow[index])) {
+                    previousElementsBelow.forEach(elementBelow => {
+                        // ...remove hover class for previous element if not in current elements
+                        if(!currentElementsBelow.includes(elementBelow)) {
+                            elementBelow.classList.remove('hover')
+                        }
+                    })
+                    previousElementsBelow = Array.from(currentElementsBelow);
+                }
+            }
+            // if any element below is not droppable...
+            if(previousElementsBelow && currentElementsBelow.some(elementBelow => !elementBelow.classList.contains('droppable'))) {
+                previousElementsBelow.forEach(elementBelow => {
+                    elementBelow.classList.remove('hover');
+                })
+                previousElementsBelow = null;
             }
         }
         const recieveElement = () => {
@@ -86,7 +101,7 @@ export default function addDragDropBehavior(mousedownEvent, elem) {
                 elementBelow.appendChild(shipPartElements[index]);
             })
         }
-        return {haveClassName, classifyAsEmpty, classifyAsOccupied, toggleHoverEffect, recieveElement}
+        return {setCurrentElementsBelow, haveClassName, classifyAsEmpty, classifyAsOccupied, handleHoverEffect, recieveElement}
     })();
 
     // (1) append elem under the mouse
@@ -95,13 +110,13 @@ export default function addDragDropBehavior(mousedownEvent, elem) {
     if(elementsBelow.haveClassName('occupied')) {
         elementsBelow.classifyAsEmpty();
     }
+
     // (2) move elem as mouse moves
     document.onmousemove = (mousemoveEvent) => {
         mouse.dragElem(mousemoveEvent);
 
-        if(elementsBelow.haveClassName('droppable')) {
-            elementsBelow.toggleHoverEffect();
-        }
+        elementsBelow.setCurrentElementsBelow();
+        elementsBelow.handleHoverEffect();
     }
     
     // (3) drop elem on mouseup,
