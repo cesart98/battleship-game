@@ -1,5 +1,5 @@
-import Gameboard from './gameboard';
-import Ship from './ship-factory';
+import Gameboard from '../gameboard';
+import Ship from '../ship-factory';
 
 describe('correctly intialize new gameboard', () => {
     let gameboard = new Gameboard('gameboardOne');

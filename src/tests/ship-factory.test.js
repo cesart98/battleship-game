@@ -1,4 +1,4 @@
-import Ship from './ship-factory';
+import Ship from '../ship-factory';
 
 describe('correctly intialize new carrier ship', () => {
 
