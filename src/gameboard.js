@@ -13,7 +13,7 @@ export default class Gameboard {
         }
         this.gridSquares = (Array(100)).fill(
             { isHit: false, hasShip: false, assignedShip: null }
-        );
+        )
     }
     setShipLocations() {
         let returnedArray = [
@@ -29,7 +29,7 @@ export default class Gameboard {
             Object.entries(returnedObj).forEach(([key, value]) => {
                 let shipObj = this.ships[key];
                 shipObj.setLocation(value);
-                this.placeShipAt(shipObj, value)
+                this.assignShipToGrids(shipObj, value)
             })
         }))
     }
@@ -47,10 +47,10 @@ export default class Gameboard {
         }
     }
 
-    placeShipAt(ship, grids) {
+    assignShipToGrids(ship, grids) {
 
         grids.forEach(grid => {
-            let currentGridSquare = this.gridSquares[grid]
+            let currentGridSquare = this.gridSquares[grid];
 
             this.gridSquares[grid] = Object.assign(
                 {}, currentGridSquare, { assignedShip: ship }, { hasShip: true } 

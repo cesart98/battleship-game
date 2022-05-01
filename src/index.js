@@ -10,7 +10,8 @@ async function main() {
     
     cesar.gameboard.setShipLocations();
 
-    cesar.attackGameboard(cesar.gameboard, 4)
+    cesar.attackGameboard(cesar.gameboard, 3)
+    cesar.attackGameboard(cesar.gameboard, 5)
 
     console.log(cesar);
     console.log(audrey);

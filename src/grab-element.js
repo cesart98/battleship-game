@@ -23,24 +23,24 @@ export default function addDragDropBehavior(mousedownEvent, elem) {
         return {grabElem, dragElem, dropElem}
     })();
     const elementsBelow = (() => {
-        let shipPartElements = Array.from(elem.children);
+        let elemChildren = Array.from(elem.children);
         let currentElementsBelow = [];
         let previousElementsBelow;
         
-        function getElemBelow(x, y) {
-            shipPartElements.forEach(shipPartElement => {
-                shipPartElement.hidden = true;
-            });
-
-            let elemBelowMouse = document.elementFromPoint(x, y);
-            
-            shipPartElements.forEach(shipPartElement => {
-                shipPartElement.hidden = false;
-            });
-            return elemBelowMouse;
-        }
         const setCurrentElementsBelow = () => {
-            shipPartElements.forEach((shipPart, index) => {
+            function getElemBelow(x, y) {
+                elemChildren.forEach(elemChild => {
+                    elemChild.hidden = true;
+                });
+    
+                let elemBelowMouse = document.elementFromPoint(x, y);
+                
+                elemChildren.forEach(elemChild => {
+                    elemChild.hidden = false;
+                });
+                return elemBelowMouse;
+            }
+            elemChildren.forEach((shipPart, index) => {
                 let shipPartX = (shipPart.getBoundingClientRect().left + (shipPart.getBoundingClientRect().width * 0.5));
                 let shipPartY = (shipPart.getBoundingClientRect().top + (shipPart.getBoundingClientRect().height * 0.5));
                 let elemBelow = getElemBelow(shipPartX, shipPartY);
@@ -96,12 +96,20 @@ export default function addDragDropBehavior(mousedownEvent, elem) {
                 previousElementsBelow = null;
             }
         }
-        const recieveElement = () => {
+        const receiveElement = () => {
             currentElementsBelow.forEach((elementBelow, index) => {
-                elementBelow.appendChild(shipPartElements[index]);
+                elementBelow.appendChild(elemChildren[index]);
+            })
+            elemChildren.forEach(elemChild => { // add event listener to remove from board
+                elemChild.addEventListener('mousedown', (event) => {
+                    elemChildren.forEach(elemChild => elem.appendChild(elemChild));
+                    mouse.grabElem(event);
+                    elementsBelow.classifyAsEmpty();
+                    addDragDropBehavior(event, elem);
+                })
             })
         }
-        return {setCurrentElementsBelow, haveClassName, classifyAsEmpty, classifyAsOccupied, handleHoverEffect, recieveElement}
+        return {setCurrentElementsBelow, haveClassName, classifyAsEmpty, classifyAsOccupied, handleHoverEffect, receiveElement}
     })();
 
     // (1) append elem under the mouse
@@ -126,7 +134,7 @@ export default function addDragDropBehavior(mousedownEvent, elem) {
 
         if(elementsBelow.haveClassName('empty')) {
             mouse.dropElem(mouseupEvent);
-            elementsBelow.recieveElement();
+            elementsBelow.receiveElement();
             elementsBelow.classifyAsOccupied();
         }
     }
