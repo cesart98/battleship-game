@@ -2,22 +2,37 @@ body {
     display: flex;
     flex-direction: column;
     background-color: pink;
+    justify-content: start;
+    min-height: 100vh;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.game-interface {
+    background-color: rgb(201, 201, 201);
+    display: flex;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    gap: 15px;
 }
 
-.gameboard-container,
-.ship-container {
-    flex: 0 0 auto;
+.game-interface > .gameboard-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    gap: 10px;
 }
 
-.gameboard {
-    height: clamp(500px, 500px, 500px);
-    width: clamp(500px, 500px, 500px);
+.gameboard-container > .gameboard {
     display: grid;
+    box-sizing: border-box;
     grid-template-columns: repeat(10, 1fr);
     grid-template-rows: repeat(10, 1fr);
-    background-color: gray;
+    height: clamp(500px, 500px, 500px);
+    width: clamp(500px, 500px, 500px);
 }
 
 .gameboard > div {
@@ -25,28 +40,31 @@ body {
     border: solid black 1px;
 }
 
-.carrier, .destroyer,
-.cruiser, .submarine,
-.patrol-boat {
+.gameboard > .empty {
+    background-color: white;
+}
+
+.gameboard > .hover {
+    background-color: red;
+}
+
+.game-interface > .ship-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    gap: 10px;
+}
+
+.ship {
     display: flex;
     flex-direction: row;
-    justify-content: center;
-    align-items: center;
 }
 
 .ship-part {
     box-sizing: border-box;
-    flex: 0 0 auto;
     height: clamp(50px, 50px, 50px);
     width: clamp(50px, 50px, 50px);
     background-color: cyan;
     border: solid black 1px;
-}
-
-.empty {
-    background-color: white;
-}
-
-.hover {
-    background-color: red;
 }
