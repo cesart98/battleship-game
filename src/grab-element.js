@@ -7,6 +7,7 @@ export default function addDragDropBehavior(mousedownEvent, elem) {
         const grabElem = (event) => {
             elem.style.position = 'absolute';
             elem.style.zIndex = 1000;
+            elem.style.width = (mousedownEvent.path[2].scrollWidth) / 10 + 'px';
             document.body.append(elem);
     
             moveElem(event.pageX, event.pageY);
@@ -111,7 +112,8 @@ export default function addDragDropBehavior(mousedownEvent, elem) {
         }
         return {setCurrentElementsBelow, haveClassName, classifyAsEmpty, classifyAsOccupied, handleHoverEffect, receiveElement}
     })();
-
+    console.log({elem})
+    console.log(mousedownEvent)
     // (1) append elem under the mouse
     mouse.grabElem(mousedownEvent);
 
