@@ -1,5 +1,5 @@
 export default class Ship {
-    constructor(name, length) {
+    constructor({name, length}) {
         this.shipParts = (Array(length)).fill(
             { isHit: false, location: null }
         );

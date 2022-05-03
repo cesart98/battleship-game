@@ -3,13 +3,13 @@ import Ship from "./ship-factory";
 export default class Gameboard {
     constructor() {
         this.ships = {
-            carrierOne: new Ship('carrierOne', 5),
-            destroyerOne: new Ship('destroyerOne', 4),
-            cruiserOne: new Ship('cruiserOne', 3),
-            submarineOne: new Ship('submarineOne', 2),
-            submarineTwo: new Ship('submarineTwo', 2),
-            patrolboatOne: new Ship('patrolboatOne', 1),
-            patrolboatTwo: new Ship('patrolboatTwo', 1),
+            carrierOne: new Ship({name: 'carrierOne', length: 5}),
+            destroyerOne: new Ship({name: 'destroyerOne', length: 4}),
+            cruiserOne: new Ship({name: 'cruiserOne', length: 3}),
+            submarineOne: new Ship({name: 'submarineOne', length: 2}),
+            submarineTwo: new Ship({name: 'submarineTwo', length: 2}),
+            patrolboatOne: new Ship({name: 'patrolboatOne', length: 1}),
+            patrolboatTwo: new Ship({name: 'patrolboatTwo', length: 1}),
         }
         this.gridSquares = (Array(100)).fill(
             { isHit: false, hasShip: false, assignedShip: null }
