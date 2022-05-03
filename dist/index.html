@@ -8,13 +8,14 @@
     <script src="./bundle.js" defer></script>
 </head>
 <body>
+    <div class="game-title">
+        <h1>BATTLESHIP</h1>
+    </div>
     <div class="game-interface">
         <div class="gameboard-container">
-            <h3>Place your ships</h3>
             <div class="gameboard"></div>
         </div>
         <div class="ship-container">
-            <h3>Your fleet</h3>
             <div class="ship" id="carrierOne">
                 <div class="ship-part" id="carrierOne"></div>
                 <div class="ship-part" id="carrierOne"></div>
@@ -38,6 +39,11 @@
                 <div class="ship-part" id="submarineOne"></div>
                 <div class="ship-part" id="submarineOne"></div>
             </div>
+            <div class="ship" id="submarineTwo">
+                <div class="ship-part" id="submarineTwo"></div>
+                <div class="ship-part" id="submarineTwo"></div>
+                <div class="ship-part" id="submarineTwo"></div>
+            </div>
             <div class="ship" id="patrolboatOne">
                 <div class="ship-part" id="patrolboatOne"></div>
                 <div class="ship-part" id="patrolboatOne"></div>
@@ -48,6 +54,6 @@
             </div>
         </div>
     </div>
-    <button>Ready</button>
+    <button class="ready-button">Ready</button>
 </body>
 </html>

@@ -1,38 +1,35 @@
 body {
-    display: flex;
-    flex-direction: column;
-    background-color: pink;
-    justify-content: start;
-    min-height: 100vh;
+    background-color: white;
     font-family: Arial, Helvetica, sans-serif;
+    margin: 0px;
 }
 
-.game-interface {
-    background-color: rgb(201, 201, 201);
+h1, h3 {
+    margin: 0px;
+}
+
+.game-title {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    align-items: center;
-    padding-top: 50px;
-    padding-bottom: 50px;
-    gap: 15px;
 }
 
-.game-interface > .gameboard-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: start;
-    align-items: center;
-    gap: 10px;
+.game-interface {
+    display: grid;
+    grid: repeat(1, 1fr) / repeat(2, 1fr);
+    place-items: stretch;
+    background-color: rgb(201, 201, 201);
+    box-sizing: border-box;
+    padding: 50px 25px;
+    gap: 50px;
 }
 
 .gameboard-container > .gameboard {
+    aspect-ratio: 1;
     display: grid;
+    grid: repeat(10, 1fr) / repeat(10, 1fr);
+    place-items: stretch;
     box-sizing: border-box;
-    grid-template-columns: repeat(10, 1fr);
-    grid-template-rows: repeat(10, 1fr);
-    height: clamp(500px, 500px, 500px);
-    width: clamp(500px, 500px, 500px);
 }
 
 .gameboard > div {
@@ -48,23 +45,29 @@ body {
     background-color: red;
 }
 
-.game-interface > .ship-container {
+.ship-container {
     display: flex;
-    flex-direction: column;
-    justify-content: start;
+    flex-direction: row;
+    justify-content: space-between;
     align-items: center;
-    gap: 10px;
+    box-sizing: border-box;
 }
 
 .ship {
     display: flex;
-    flex-direction: row;
+    width: 10%;
+    flex-direction: column;
+    background-color: pink;
 }
 
 .ship-part {
-    box-sizing: border-box;
-    height: clamp(50px, 50px, 50px);
-    width: clamp(50px, 50px, 50px);
-    background-color: cyan;
+    aspect-ratio: 1;
+    background-color: rgb(70, 70, 212);
     border: solid black 1px;
+}
+
+.game-interface > .ready-button {
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
 }
