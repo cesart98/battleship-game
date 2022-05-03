@@ -24,15 +24,21 @@ h1, h3 {
     gap: 50px;
 }
 
+.gameboard-container {
+    width: clamp(300px, 1fr, 500px);
+    box-sizing: border-box;
+}
+
 .gameboard-container > .gameboard {
-    aspect-ratio: 1;
     display: grid;
+    aspect-ratio: 1 / 1;
     grid: repeat(10, 1fr) / repeat(10, 1fr);
     place-items: stretch;
     box-sizing: border-box;
 }
 
 .gameboard > div {
+    aspect-ratio: 1 / 1;
     box-sizing: border-box;
     border: solid black 1px;
 }
@@ -46,6 +52,7 @@ h1, h3 {
 }
 
 .ship-container {
+    width: clamp(300px, 1fr, 500px);
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -54,16 +61,22 @@ h1, h3 {
 }
 
 .ship {
-    display: flex;
     width: 10%;
-    flex-direction: column;
+    display: grid;
+    place-items: stretch;
+    box-sizing: border-box;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto-fill;
     background-color: pink;
 }
 
 .ship-part {
-    aspect-ratio: 1;
+    aspect-ratio: 1 / 1;
     background-color: rgb(70, 70, 212);
     border: solid black 1px;
+    box-sizing: border-box;
+    
+    
 }
 
 .game-interface > .ready-button {
