@@ -4,8 +4,8 @@ import './style.css'
 
 async function main() {
     await generateWebpage();
-    let cesar = new Player('Cesar');
-    let audrey = new Player('Audrey')
+    let cesar = new Player({name: 'Cesar'});
+    let audrey = new Player({name: 'Audrey'})
     
     cesar.gameboard.setShipLocations();
 
@@ -24,13 +24,13 @@ button.addEventListener('click', fetchShipLocations)
 
 function fetchShipLocations() {
     let shipLocations = {
-            carrierOne: [],
-            destroyerOne: [],
-            cruiserOne: [],
-            submarineOne: [],
-            submarineTwo: [],
-            patrolboatOne: [],
-            patrolboatTwo: [],
+        carrierOne: [],
+        destroyerOne: [],
+        cruiserOne: [],
+        submarineOne: [],
+        submarineTwo: [],
+        patrolboatOne: [],
+        patrolboatTwo: [],
     };
     let gameboard = document.querySelector('.gameboard');
     gameboard = Array.from(gameboard.childNodes).filter(
