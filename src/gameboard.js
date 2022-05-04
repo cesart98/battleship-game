@@ -11,27 +11,37 @@ export default class Gameboard {
             patrolboatOne: new Ship({name: 'patrolboatOne', length: 1}),
             patrolboatTwo: new Ship({name: 'patrolboatTwo', length: 1}),
         }
-        this.gridSquares = (Array(100)).fill(
-            { isHit: false, hasShip: false, assignedShip: null }
-        )
+        this.gridSquares = [];
+        this.setGridSquares();
+        this.setShipLocations();
+    }
+    setGridSquares() {
+        let gridSquaresFromDOM = document.querySelectorAll('.gameboard > div');
+
+        gridSquaresFromDOM.forEach(gridSquareFromDOM => {
+            if(gridSquareFromDOM.classList.contains('empty')) {
+                this.gridSquares.push(
+                    { isHit: false, hasShip: false, assignedShip: null }
+                )
+            } else if(gridSquareFromDOM.classList.contains('occupied')) {
+                let shipToAssign = this.ships[gridSquareFromDOM.firstChild.id];
+                this.gridSquares.push(
+                    { isHit: false, hasShip: true, assignedShip: shipToAssign }
+                )
+            }
+        })
+        console.log(this.gridSquares)
     }
     setShipLocations() {
-        let returnedArray = [
-            { carrierOne: [2, 3, 4, 5, 6] },
-            { destroyerOne: [12, 13, 14, 15] },
-            { cruiserOne: [22, 23, 24] },
-            { submarineOne: [32, 33] },
-            { submarineOne: [42, 43] },
-            { patrolboatOne: [52, 53] },
-            { patrolboatTwo: [62, 63] },
-        ]
-        returnedArray.forEach((returnedObj => {
-            Object.entries(returnedObj).forEach(([key, value]) => {
-                let shipObj = this.ships[key];
-                shipObj.setLocation(value);
-                this.assignShipToGrids(shipObj, value)
+        Object.values(this.ships).forEach((currentShip) => {
+            let gridSquaresIndices = [];
+            this.gridSquares.forEach((gridSquare, index) => {
+                if(gridSquare.assignedShip == currentShip) { 
+                    gridSquaresIndices.push(index);
+                }
             })
-        }))
+            currentShip.setLocation(gridSquaresIndices);
+        })
     }
     receiveAttack(grid) {
 
@@ -45,17 +55,6 @@ export default class Gameboard {
         if(currentGridSquare.hasShip) {
             currentGridSquare.assignedShip.receiveAttack(grid);
         }
-    }
-
-    assignShipToGrids(ship, grids) {
-
-        grids.forEach(grid => {
-            let currentGridSquare = this.gridSquares[grid];
-
-            this.gridSquares[grid] = Object.assign(
-                {}, currentGridSquare, { assignedShip: ship }, { hasShip: true } 
-            );
-        })
     }
 
     getMissedAttacks() {

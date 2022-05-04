@@ -3,24 +3,19 @@ import Player from './player-factory.js'
 import './style.css'
 
 async function main() {
-    await generateWebpage();
-    let cesar = new Player({name: 'Cesar'});
-    let audrey = new Player({name: 'Audrey'})
-    
-    cesar.gameboard.setShipLocations();
 
-    cesar.attackGameboard(cesar.gameboard, 3)
-    cesar.attackGameboard(cesar.gameboard, 5)
+    let cesar = new Player({name: 'Cesar'});
 
     console.log(cesar);
-    console.log(audrey);
 
     return;
 }
-main();
 
-let button = document.querySelector('.ready-button');
-button.addEventListener('click', fetchShipLocations)
+generateWebpage();
+
+// when user presses ready...
+let readyButton = document.querySelector('.ready-button');
+readyButton.addEventListener('click', main)
 
 function fetchShipLocations() {
     let shipLocations = {
@@ -45,16 +40,6 @@ function fetchShipLocations() {
     return shipLocations;
     })
 }
-// let returnedArray = [
-//     { carrierOne: [2, 3, 4, 5, 6] },
-//     { destroyerOne: [12, 13, 14, 15] },
-//     { cruiserOne: [22, 23, 24] },
-//     { submarineOne: [32, 33] },
-//     { submarineOne: [42, 43] },
-//     { patrolboatOne: [52, 53] },
-//     { patrolboatTwo: [62, 63] },
-// ]
-// generate gameboard
 // place ships on board
 // when user presses ready
 // assign grid values to ship grid
